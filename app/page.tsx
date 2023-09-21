@@ -54,7 +54,7 @@ export default function Home() {
 
       <div className='w-5/6 mx-[auto] p-5 mt-20 overflow-hidden'>
         <h2 className='mb-10 text-primary-blue font-bold'>
-          This Week's Top Picks
+          This Week&apos;s Top Picks
         </h2>
         <div className='overflow-x-auto flex p-5'>
           <PhoneCard />
