@@ -8,7 +8,7 @@ export default function BrandCard() {
                     src={'/images/hauwei-logo.jpg'}
                     alt='hauwei-logo'
                     width={70}
-                    height={700}
+                    height={70}
                     className='rounded-full mr-5'
                 />
             </div>
