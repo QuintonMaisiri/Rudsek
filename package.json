@@ -8,10 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "engines": {
-    "node": "18.12.1"
-  },
-  "cacheDirectories": [
+   "cacheDirectories": [
     "node_modules/",
     ".next/cache/"
   ],
