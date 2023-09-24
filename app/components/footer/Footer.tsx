@@ -5,7 +5,7 @@ export default function Footer() {
     return (
         <div>
             <div className="w-full border-t border-t-gray-400 mt-20 ">
-                <div className="w-5/6 text-sm  py-10 px-5 grid grid-cols-4 mx-[auto]">
+                <div className="w-5/6 text-sm  py-10 px-5 grid grid-cols-1 mx-[auto] md:grid-cols-3 lg:grid-cols-4 gap-y-5 md:place-content-start gap-5 place-content-center">
                     <div>
                         <FontAwesomeIcon icon={faShop} className="text-primary-blue text-[26px]" />
                         <p className="mb-5">Rudsek</p>

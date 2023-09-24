@@ -12,9 +12,8 @@ export default function BrandCard() {
                     className='rounded-full mr-5'
                 />
             </div>
-            <div>
-                <h3 className='font-bold'>Hauwei</h3>
-                <p className=''>300 Products</p>
+            <div className='ml-3'>
+                <h3 className='font-bold text-white'>Hauwei</h3>
             </div>
         </div>
     )
