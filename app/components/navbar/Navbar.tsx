@@ -7,8 +7,8 @@ import { faBars, faCartShopping, faShop, faXmark } from '@fortawesome/free-solid
 export default function Navbar() {
     let [isMenuOpen, setIsMenuOpen] = useState(false)
     return (
-        <div className='shadow-sm bg-white w-full p-5'>
-            <div className='flex items-center justify-between'>
+        <div className='shadow-sm bg-white w-full p-5 '>
+            <div className='flex items-center justify-between lg:hidden'>
                 <div className='flex'>
                     <FontAwesomeIcon icon={faShop} className='text-primary-blue text-[24px]' />
                     <p className='font-bold text-primary-blue ml-3'>Rudsek</p>
@@ -24,10 +24,10 @@ export default function Navbar() {
                 </div>
             </div>
             <nav className="justify-between items-center px-20 py-3 hidden lg:flex">
-                {/* <div className='flex'>
+                <div className='flex'>
                     <FontAwesomeIcon icon={faShop} className='text-primary-blue text-[24px]' />
                     <p className='font-bold text-primary-blue'>Rudsek</p>
-                </div> */}
+                </div>
                 <div className="flex items-center">
                     <div>
                         <ul className="flex">

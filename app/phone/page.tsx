@@ -6,15 +6,16 @@ import Image from "next/image";
 
 export default function Phone() {
     return (
-        <div className="w-5/6 m-auto ">
+        <div className="w-11/12 lg:w-5/6 m-auto ">
             <Searchbar />
-            <div className="grid grid-cols-3 gap-5">
-                <div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="">
                     <Image
                         src={'/images/phone.jpg'}
                         width={200}
                         height={300}
                         alt="hauwei phone"
+                        className="mx-[auto] mb-5"
                     />
                     <div className="grid grid-cols-3">
 
@@ -102,19 +103,19 @@ export default function Phone() {
                         </table>
                     </div>
                 </div>
-                <div>
-                    <div className="border border-primary-blue p-5">
-                        <p className="text-primary-blue text-center font-bold">Description</p>
+                <div className="md:col-span-2">
+                    <div className="border border-primary-blue p-5 mt-10">
+                        <p className="text-primary-blue text-center font-bold ">Description</p>
                     </div>
                     <div>
-                        <h2 className="text-primary-blue font-bold font-xl">
+                        <h2 className="text-primary-blue font-bold font-xl mt-5">
                             Overview
                         </h2>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi repudiandae maxime consequuntur quod nihil! Sapiente possimus nemo harum facere obcaecati? Nihil sapiente sed modi veniam nam cum laborum placeat alias reiciendis, hic beatae porro ab, blanditiis impedit laboriosam mollitia itaque.</p>
                     </div>
                     <div>
-                        <div className="flex items-center mb-5">
-                            <div className="grid grid-cols-5 w-1/3 mt-5">
+                        <div className="flex items-center mb-5 mt-5">
+                            <div className="grid grid-cols-5 w-1/3">
                                 <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
                                 <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
                                 <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
@@ -128,7 +129,7 @@ export default function Phone() {
                 </div>
             </div>
 
-            <div className='mt-20'>
+            <div className='mt-10'>
                 <h2 className='mb-5 text-primary-blue font-bold'>
                     Customer Reviews
                 </h2>
@@ -144,7 +145,7 @@ export default function Phone() {
                 <h2 className='mb-10 text-primary-blue font-bold'>
                     Similar phones
                 </h2>
-                <div className='overflow-x-auto flex p-5 bg-gray-200 rounded-lg'>
+                <div className='overflow-x-auto flex p-5 rounded-lg'>
                     <PhoneCard />
                     <PhoneCard />
                     <PhoneCard />

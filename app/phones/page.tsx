@@ -3,9 +3,9 @@ import Searchbar from "../components/searchbar/Searchbar";
 
 export default function Phone() {
     return (
-        <div className='mx-[auto] w-5/6 mt-20 px-20' >
+        <div className='' >
             <Searchbar />
-            <div className='grid grid-cols-4 gap-5 p-5'>
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-5'>
                 <PhoneCard />
                 <PhoneCard />
                 <PhoneCard />
