@@ -8,9 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "engines": {
-    "node": "18.14.2"
-  },
   "cacheDirectories": [
     "node_modules/",
     ".next/cache/"

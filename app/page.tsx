@@ -2,10 +2,13 @@ import Image from 'next/image'
 import Searchbar from './components/searchbar/Searchbar'
 import BrandCard from './components/brandcard/Brandcard'
 import PhoneCard from './components/phonecard/Phonecard'
+import Navbar from './components/navbar/Navbar'
+import Footer from './components/footer/Footer'
 
 export default function Home() {
   return (
     <div>
+      <Navbar />
       <header className='bg-primary-blue flex justify-evenly px-5 py-10 lg:px-40 relative'>
         <div className='absolute top-0 left-0 w-full h-full bg-[url("/images/pattern2.jpg")] bg-center bg-cover opacity-[0.05] z-10'></div>
         <div className='lg:w-[500px] flex-col justify-between '>
@@ -73,7 +76,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='w-11/12 mx-[auto] mt-20'>
+      <div className='w-11/12 lg:w-5/6 mx-[auto] mt-20'>
         <h2 className='mb-10 text-primary-blue font-bold'>
           Recently added
         </h2>
@@ -108,6 +111,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
