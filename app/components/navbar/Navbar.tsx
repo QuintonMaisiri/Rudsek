@@ -38,13 +38,10 @@ export default function Navbar() {
                                 <a href='/phones'>All Phones</a>
                             </li>
                             <li className="mr-10">
-                                <a href='#About'>About us</a>
+                                <a href='/#About'>About us</a>
                             </li>
                             <li className="mr-10">
                                 <a href='/contact-us'>Contact us</a>
-                            </li>
-                            <li className="mr-10">
-                                <a href='/phone'>Phone</a>
                             </li>
                         </ul>
                     </div>
@@ -75,13 +72,10 @@ export default function Navbar() {
                         <a href='/phones'>All Phones</a>
                     </li>
                     <li className="mb-5 text-center">
-                        <a href='#About'>About us</a>
+                        <a href='/#About'>About us</a>
                     </li>
                     <li className="mb-5 text-center">
                         <a href='/contact-us'>Contact us</a>
-                    </li>
-                    <li className="mb-5 text-center">
-                        <a href='/phone'>Phone</a>
                     </li>
                     <li className="mb-5 text-center">
                         <FontAwesomeIcon icon={faCartShopping} className='text-[24px]' />
