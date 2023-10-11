@@ -1,13 +1,28 @@
 'use client'
-import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getAllPhones } from "@/app/dbengine";
+import { deletePhone, getAllPhones } from "@/app/dbengine";
 import { useState, useEffect } from "react";
 
 
 export default function Admin() {
 
-    let [phones, setPhones] = useState();
+    let [phones, setPhones] = useState([{ id: 0, data: { 
+        name: 'nothing',
+        brand: 'nothing',
+        size: 'nothing',
+        network: 'nothing',
+        battery: 'nothing',
+        frontCamera: 'nothing',
+        backCamera: 'nothing',
+        fingerPrint: 'nothing',
+        android: 'nothing',
+        description: 'nothing',
+        simCard: 'nothing',
+        price: 'nothing',
+        memory: 'nothing'
+    } }]);
+
 
     useEffect(() => {
         (async () => {
@@ -19,6 +34,10 @@ export default function Admin() {
             }
         })();
     }, []);
+
+    const tableHeadings = [
+        'Name', 'Size', 'Memory', 'Network', 'Back Camera', 'Front Camera', 'Sim Card', 'Android', 'Battery', 'FingerPrint'
+    ]
 
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
@@ -49,16 +68,17 @@ export default function Admin() {
                                     <table className="table-auto w-full">
                                         <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                             <tr>
-                                                {phones.forEach((phone) => {
+                                                {tableHeadings.map((heading) => {
                                                     return <th className="p-2 whitespace-nowrap">
-                                                        <div className="font-semibold text-left">{phone.data.name}</div>
+                                                        <div className="font-semibold text-left">{heading}</div>
                                                     </th>
                                                 })}
                                             </tr>
                                         </thead>
                                         <tbody className="text-sm divide-y divide-gray-100">
-                                                {phones.forEach((phone) => {
-                                                    return(
+                                            {/* 'Name','Size','Memory','Network','Back Camera','Front Camera','Sim Card','Android','Battery','FingerPrint' */}
+                                            {phones.map((phone) => {
+                                                return (
                                                     <tr>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
@@ -67,67 +87,63 @@ export default function Admin() {
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.brand}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.size}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.memory}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.network}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.backCamera}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.frontCamera}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.simCard}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.android}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.battery}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                                <div className="font-medium text-gray-800">{phone.data.fingerPrint}</div>
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="p-2 whitespace-nowrap">
-                                                            <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="p-2 whitespace-nowrap">
-                                                            <div className="flex items-center">
-                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                               <button><FontAwesomeIcon icon={faTrash} className="text-red[400] text-lg" type="button" onClick={
+                                                                ()=>{
+                                                                    deletePhone(phone.id)
+                                                                }
+                                                               }/></button>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    )
-                                                })}
+
+                                                )
+                                            })}
+
                                         </tbody>
                                     </table>
                                 </div>

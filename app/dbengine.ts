@@ -10,9 +10,10 @@ async function getAllPhones(){
     });
 
     return phones;
+    
 }
 
-async function addNewPhone(name: String, brand: String, size: String, network: String, battery: String, frontCamera: String, backCamera: String, fingerPrint: String, android: String, description: String, simCard: String, price: String) {
+async function addNewPhone(name: String, brand: String, size: String, network: String, battery: String, frontCamera: String, backCamera: String, fingerPrint: String, android: String, description: String, simCard: String, price: String, memory: String) {
     await addDoc(collection(db, 'phones'), {
         name: name,
         brand: brand,
@@ -26,6 +27,7 @@ async function addNewPhone(name: String, brand: String, size: String, network: S
         description: description,
         simCard: simCard,
         price: price,
+        memory: memory,
         // image: image
     })
 }
@@ -59,4 +61,4 @@ async function deletePhone(phoneId : any){
 
 }
 
-export { getBrands, addNewPhone, getAllPhones }
+export { getBrands, addNewPhone, getAllPhones, deletePhone }

@@ -18,6 +18,7 @@ export default function NewPhone() {
     let [description, setDescription] = useState<String>();
     let [simCard, setSimcard] = useState<String>();
     let [price, setPrice] = useState<String>();
+    let [memory,setMemory] = useState<String>();
     let [image, setImage] = useState<String>();
 
     useEffect(() => {
@@ -179,6 +180,12 @@ export default function NewPhone() {
                             onChange={(e) => setPrice(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
+                    <div>
+                        <h2 className="mb-2">Memory</h2>
+                        <input
+                            onChange={(e) => setMemory(e.target.value)}
+                            type="text" className="p-2 border rounded w-full" />
+                    </div>
                     <div className=" md:col-span-2 lg:col-span-3 xl:col-span-4">
                         <h2 className="mb-2">Description</h2>
                         <textarea
@@ -196,8 +203,9 @@ export default function NewPhone() {
                 <button
                     type="button"
                     disabled ={!name || !brand || !size || !network || !battery || !frontCamera || !backCamera || ! fingerPrint || !android || ! description || ! simCard || !price}  
-                    onClick={() => {addNewPhone( name, brand, size, network, battery, frontCamera, backCamera, fingerPrint, android,description, simCard,price);
-                        window.alert("Phone added successfully")
+                    onClick={() => {addNewPhone( name, brand, size, network, battery, frontCamera, backCamera, fingerPrint, android,description, simCard,price,memory);
+                        window.alert("Phone added successfully");
+                        resetFields();
                     }}
                     className="rounded p-3 bg-primary-blue text-white mt-10 w-[120px]">
                     Submit
