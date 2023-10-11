@@ -25,7 +25,7 @@ export default function Cart() {
                         <h2>Items</h2>
                         <div>
                             {cart.map((item: any) => (
-                                <div>
+                                <div key={item.id}>
                                     < CartItem product={item}/>
                                 </div>
                             ))}
