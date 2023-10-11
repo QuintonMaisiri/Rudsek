@@ -53,6 +53,8 @@ async function getPhone(phoneId : any){
       } else {
        return {msg: 'no such document'}
       }
+    
+      
 }
 
 async function deletePhone(phoneId : any){
@@ -61,4 +63,4 @@ async function deletePhone(phoneId : any){
 
 }
 
-export { getBrands, addNewPhone, getAllPhones, deletePhone }
+export { getBrands, addNewPhone, getAllPhones, deletePhone, getPhone }

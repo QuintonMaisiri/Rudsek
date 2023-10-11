@@ -1,11 +1,30 @@
+'use client'
 import Image from 'next/image'
 import Searchbar from './components/searchbar/Searchbar'
 import BrandCard from './components/brandcard/Brandcard'
 import PhoneCard from './components/phonecard/Phonecard'
 import Navbar from './components/navbar/Navbar'
 import Footer from './components/footer/Footer'
+import { useState,useEffect } from 'react'
+import { getAllPhones, getBrands } from './dbengine'
 
 export default function Home() {
+  let [phones, setPhones] = useState([])
+  let [brands, setBrands] = useState([])
+
+  useEffect(() => {
+      (async () => {
+          try {
+              const resPhones = await getAllPhones()
+              const resBrands = await getBrands()
+              setPhones(resPhones)
+              setBrands(resBrands)
+          } catch (e) {
+              console.log(e);
+          }
+      })();
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -54,12 +73,9 @@ export default function Home() {
           This Week&apos;s Top Picks
         </h2>
         <div className='overflow-x-auto flex'>
-          <PhoneCard product={{ name: "Hauwei", id: 1, price: 200 }} />
-          <PhoneCard />
-          <PhoneCard />
-          <PhoneCard />
-          <PhoneCard />
-          <PhoneCard />
+          {phones.map((phone : any)=>{
+            return (<PhoneCard key={phone.id} product={phone} />)
+          })}
         </div>
       </div>
 
@@ -69,12 +85,9 @@ export default function Home() {
           Browse Phones by brand
         </h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
+        {brands.map((brand : any)=>{
+            return (<BrandCard key={brand.id} name={brand.data.name} />)
+          })}
         </div>
       </div>
 
@@ -83,12 +96,9 @@ export default function Home() {
           Recently added
         </h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
-          <PhoneCard />
-          <PhoneCard />
-          <PhoneCard />
-          <PhoneCard />
-          <PhoneCard />
-          <PhoneCard />
+        {phones.map((phone : any)=>{
+            return (<PhoneCard key={phone.id} product={phone} />)
+          })}
         </div>
       </div>
 

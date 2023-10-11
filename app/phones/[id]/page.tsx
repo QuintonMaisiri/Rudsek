@@ -8,12 +8,48 @@ import Image from "next/image";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { addToCart } from '@/redux/cart.slice';
-import {useDispatch} from "react-redux"
+import { useDispatch } from "react-redux"
+import { useState, useEffect } from "react";
+import { getAllPhones, getPhone } from "@/app/dbengine";
+import { set } from "firebase/database";
 
-export default async function Phone() {
+
+export default function Phone({ params }: { params: { id: string } }) {
 
     const dispatch = useDispatch();
-    const products = await fetch('')
+    let [phone, setPhone] = useState({ 
+        name: 'nothing',
+        brand: 'nothing',
+        size: 'nothing',
+        network: 'nothing',
+        battery: 'nothing',
+        frontCamera: 'nothing',
+        backCamera: 'nothing',
+        fingerPrint: 'nothing',
+        android: 'nothing',
+        description: 'nothing',
+        simCard: 'nothing',
+        price: 'nothing',
+        memory: 'nothing'
+    } )
+    let [phones,setPhones] = useState([])
+
+    const id = params.id
+    console.log(phone)
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const resPhone = await getPhone(id)
+                const resPhones = await getAllPhones()
+                setPhone(resPhone)
+                setPhones(resPhones)
+            } catch (e) {
+                console.log(e);
+            }
+        })();
+    }, []);
+
     return (
         <div>
             <Navbar />
@@ -63,7 +99,7 @@ export default async function Phone() {
                     </div>
                     <div>
                         <div className="bg-primary-blue p-5">
-                            <p className="text-white font-bold text-center ">Hauwei Mate 7 Pro</p>
+                            <p className="text-white font-bold text-center ">{phone.name}</p>
                         </div>
                         <div>
                             <table className="min-w-full">
@@ -71,43 +107,49 @@ export default async function Phone() {
                                     <tr className=" border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Size</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            6.93 inch
+                                            {phone.size}
                                         </td>
                                     </tr>
                                     <tr className="bg-primary-blue border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Memory</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Jacob
+                                            {phone.memory}
                                         </td>
                                     </tr>
                                     <tr className="border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Network</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Mark
+                                        {phone.network}
                                         </td>
                                     </tr>
                                     <tr className="bg-primary-blue border-b">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Camera</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Front Camera</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Bob
+                                        {phone.frontCamera}
                                         </td>
                                     </tr>
                                     <tr className="border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Battery</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Mark
+                                        {phone.battery}
                                         </td>
                                     </tr>
                                     <tr className="bg-primary-blue border-b">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Android</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Back Camera</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Bob
+                                        {phone.backCamera}
                                         </td>
                                     </tr>
                                     <tr className="border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Fingerprint</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                            Mark
+                                        {phone.fingerPrint}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-primary-blue border-b">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Android</td>
+                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {phone.android}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -122,7 +164,7 @@ export default async function Phone() {
                             <h2 className="text-primary-blue font-bold font-xl mt-5">
                                 Overview
                             </h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi repudiandae maxime consequuntur quod nihil! Sapiente possimus nemo harum facere obcaecati? Nihil sapiente sed modi veniam nam cum laborum placeat alias reiciendis, hic beatae porro ab, blanditiis impedit laboriosam mollitia itaque.</p>
+                            <p>{phone.description}</p>
                         </div>
                         <div>
                             <div className="flex items-center mb-5 mt-5">
@@ -136,10 +178,10 @@ export default async function Phone() {
                                 <p className="text-yellow-300 ml-5" >Add Stars</p>
                             </div>
                             <button
-                             onClick={()=>{
-                                dispatch(addToCart(product))
-                            }}
-                             className="text-white bg-primary-blue w-full p-3" type="button"> <FontAwesomeIcon icon={faCartShopping} /> Add to cart</button>
+                                onClick={() => {
+                                    dispatch(addToCart(phone))
+                                }}
+                                className="text-white bg-primary-blue w-full p-3" type="button"> <FontAwesomeIcon icon={faCartShopping} /> Add to cart</button>
                         </div>
                     </div>
                 </div>
@@ -161,12 +203,9 @@ export default async function Phone() {
                         Similar phones
                     </h2>
                     <div className='overflow-x-auto flex p-5 rounded-lg'>
-                        <PhoneCard />
-                        <PhoneCard />
-                        <PhoneCard />
-                        <PhoneCard />
-                        <PhoneCard />
-                        <PhoneCard />
+                        {phones.map((phone: any) => {
+                            return (<PhoneCard key={phone.id} product={phone} />)
+                        })}
                     </div>
                 </div>
 

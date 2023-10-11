@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-export default function BrandCard() {
+export default function BrandCard({name} : {name:String}) {
     return (
         <div className="bg-primary-blue p-5 rounded-lg flex items-center shadow-md">
             <div>
@@ -13,7 +13,7 @@ export default function BrandCard() {
                 />
             </div>
             <div className='ml-3'>
-                <h3 className='font-bold text-white'>Hauwei</h3>
+                <h3 className='font-bold text-white'>{name}</h3>
             </div>
         </div>
     )
