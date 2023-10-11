@@ -11,32 +11,6 @@ export default function Phone() {
                 <Searchbar />
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-5'>
                     <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
-                    <PhoneCard />
                 </div>
 
                 <div className="flex flex-col items-center">

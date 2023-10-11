@@ -2,7 +2,7 @@ import { db } from "@/app/firebase";
 import { collection, addDoc, doc, getDocs, deleteDoc,getDoc } from "firebase/firestore";
 
 async function getAllPhones(){
-    let phones =[];
+    let phones : any =[];
     const querySnapshot = await getDocs(collection(db,"phones"));
     querySnapshot.forEach((doc) => {
       let phone = {id:doc.id, data:doc.data()}
@@ -33,7 +33,7 @@ async function addNewPhone(name: String, brand: String, size: String, network: S
 }
 
 async function getBrands() {
-    let brands = [];
+    let brands : any = [] ;
     const querySnapshot = await getDocs(collection(db, 'brands'));
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots

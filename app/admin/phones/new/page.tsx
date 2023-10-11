@@ -6,7 +6,7 @@ import {addNewPhone, getBrands} from '@/app/dbengine'
 
 export default function NewPhone() {
     let [brandOptions, setBrandOptions] =useState([]);
-    let [name, setName] = useState<String>();
+    let [name, setName] = useState<String >();
     let [brand, setBrand] = useState<String>();
     let [size, setSize] = useState<String>();
     let [network, setNetwork] = useState<String>();
@@ -24,7 +24,7 @@ export default function NewPhone() {
     useEffect(() => {
         (async () => {
             try {
-                const res = await getBrands()
+                const res : any = await getBrands()
                 setBrandOptions(res)
             } catch (e) {
                 console.log(e);
@@ -203,9 +203,9 @@ export default function NewPhone() {
                 <button
                     type="button"
                     disabled ={!name || !brand || !size || !network || !battery || !frontCamera || !backCamera || ! fingerPrint || !android || ! description || ! simCard || !price}  
-                    onClick={() => {addNewPhone( name, brand, size, network, battery, frontCamera, backCamera, fingerPrint, android,description, simCard,price,memory);
-                        window.alert("Phone added successfully");
+                    onClick={() => {addNewPhone( name !, brand !, size !, network !, battery !, frontCamera !, backCamera !, fingerPrint !, android !,description !, simCard !,price !,memory !);
                         resetFields();
+                        window.alert("Phone added successfully");
                     }}
                     className="rounded p-3 bg-primary-blue text-white mt-10 w-[120px]">
                     Submit
