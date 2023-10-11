@@ -1,16 +1,35 @@
+'use client'
 import Footer from "../components/footer/Footer";
 import Navbar from "../components/navbar/Navbar";
 import PhoneCard from "../components/phonecard/Phonecard";
 import Searchbar from "../components/searchbar/Searchbar";
-
+import { getAllPhones } from "@/app/dbengine";
+import { useState, useEffect } from "react";
 export default function Phone() {
+    let [phones, setPhones] = useState([])
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await getAllPhones()
+                setPhones(res)
+            } catch (e) {
+                console.log(e);
+            }
+        })();
+    }, []);
+
+
     return (
         <div>
             <Navbar />
             <div className="w-11/12 lg:w-5/6 m-auto" >
                 <Searchbar />
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-5'>
-                    <PhoneCard />
+                    {phones.map((phone: any)=>{
+                        return (<PhoneCard key={phone.id} product={phone} />)       
+                    }
+                    )}
                 </div>
 
                 <div className="flex flex-col items-center">
