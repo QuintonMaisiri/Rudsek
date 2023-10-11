@@ -1,8 +1,16 @@
+'use client';
+
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { redirect } from "next/navigation";
 
 export default function Admin() {
+    const { data: session } = useSession();
+    
+    if(!session){
+        redirect('/auth/signin')
+    }
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
             <div>
@@ -12,7 +20,7 @@ export default function Admin() {
             <div className="rounded p-5 border mt-10 shadow-sm">
                 <div className="relative mt-5">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="absolute top-4 left-3 text-gray-400" />
-                    <input type="text" placeholder="search" className="p-3 pl-8 border rounded " />
+                    <input type="text" placeholder="search" className="p-3 pl-8 border rounded w-full" />
                 </div>
                 <div className="mt-10">
                     <div className="flex flex-col justify-center h-full">

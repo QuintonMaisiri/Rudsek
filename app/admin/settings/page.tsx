@@ -10,24 +10,24 @@ export default function Settings() {
                     <p>Change Username And Password</p>
                 </div>
                 <div className="rounded p-5 border mt-10 shadow-sm">
-                    <div className="mt-10 flex justify-between items-center">
+                    <div className="mt-10 flex flex-col md:justify-between md:items-center md:flex-row  ">
                         <div>
                             <p>Username</p>
-                            <input type="text" className="border p-3 mt-3"/>
+                            <input type="text" className="border p-3 mt-3 w-full md:w-[auto]"/>
                         </div>
                         <div>
-                            <button className="bg-primary-blue rounded text-white w-[120px] p-3">
+                            <button className="bg-primary-blue rounded text-white w-[120px] mt-5 md:mt-0 p-3">
                                 Change
                             </button>
                         </div>
                     </div>
-                    <div className="mt-10 flex justify-between items-center">
+                    <div className="mt-10 flex flex-col md:justify-between md:items-center md:flex-row ">
                         <div>
                             <p>Password</p>
-                            <input type="password" className="border p-3 mt-3"/>
+                            <input type="password" className="border p-3 mt-3 w-full md:w-[auto]"/>
                         </div>
                         <div>
-                            <button className="bg-primary-blue rounded text-white w-[120px] p-3">
+                            <button className="bg-primary-blue rounded text-white w-[120px] p-3 mt-5 md:mt-0">
                                 Change
                             </button>
                         </div>

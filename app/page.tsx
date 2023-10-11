@@ -23,9 +23,11 @@ export default function Home() {
             <p className='font-black  mb-5 text-sm md:text-lg lg:text-xl mb-5 '>Buy Direct From China Freight And Duty Inclusive</p>
           </div>
           <div>
-            <button className='p-3 bg-white rounded-md text-primary-blue md:text-lg lg:text-xl mb-5 w-[200px] text-sm font-bold shadow-sm md:mt-[50px]'>
-              Start Buying
-            </button>
+            <a href='/phones'>
+              <button className='p-3 bg-white rounded-md text-primary-blue md:text-lg lg:text-xl mb-5 w-[200px] text-sm font-bold shadow-sm md:mt-[50px] relative z-[200]'>
+                Start Buying
+              </button>
+            </a>
           </div>
         </div>
         <div className='relative md:rotate-12 lg:rotate-[20deg] hidden md:block'>
@@ -48,11 +50,11 @@ export default function Home() {
       <Searchbar />
 
       <div className='w-11/12 lg:w-5/6 mx-[auto] p-5 mt-10 overflow-hidden'>
-        <h2 className='mb-10 text-primary-blue font-bold'>
+        <h2 className='mb-10  font-bold'>
           This Week&apos;s Top Picks
         </h2>
         <div className='overflow-x-auto flex'>
-          <PhoneCard />
+          <PhoneCard product={{ name: "Hauwei", id: 1, price: 200 }} />
           <PhoneCard />
           <PhoneCard />
           <PhoneCard />
@@ -62,8 +64,8 @@ export default function Home() {
       </div>
 
 
-      <div className='w-11/12 lg:w-5/6 mx-[auto]'>
-        <h2 className='mb-10 text-primary-blue font-bold'>
+      <div className='w-11/12 lg:w-5/6 mx-[auto] mt-10'>
+        <h2 className='mb-5 font-bold'>
           Browse Phones by brand
         </h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
@@ -77,7 +79,7 @@ export default function Home() {
       </div>
 
       <div className='w-11/12 lg:w-5/6 mx-[auto] mt-20'>
-        <h2 className='mb-10 text-primary-blue font-bold'>
+        <h2 className='mb-10 font-bold'>
           Recently added
         </h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
@@ -94,11 +96,11 @@ export default function Home() {
       <div className='mt-10 relative bg-[url("/images/about-bg.jpg")] bg-cover bg-center -z-50 p-5'>
         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-[80%] -z-10'></div>
         <div className='md:w-5/6 w-11/12 mx-auto flex flex-wrap md:flex-nowrap justify-between'>
-          <div className='md:w-2/3 py-3'>
+          <div className='md:w-2/3 py-3' id='about'>
             <h2 className='text-white font-bold text-xl md:text-[36px] mb-4 md:mb-8'>A supplier you can trust</h2>
-            <p className='text-white mb-8 md:mb-12 md:text-lg text-sm trailing-lg'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque neque maiores rem illo dolor maxime architecto aspernatur pariatur laboriosam in!</p>
+            <p className='text-white mb-8 md:mb-12 md:text-lg text-sm trailing-lg'> We collect payment only after delivery of your phone. We also provide a 6 month long warranty to test out the phones. We will strip you of all your online transaction fears by operating transparently with you. </p>
             <h2 className='text-white font-bold text-xl md:text-[36px] mb-4 md:mb-8'>About us</h2>
-            <p className='text-white md:text-lg text-sm mb-12'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad odit sit pariatur. Quibusdam esse accusantium eaque! Vel quae est cupiditate!</p>
+            <p className='text-white md:text-lg text-sm mb-12'>Rudsek is an online wholesale and retail of smart phones from china. It was found and is managed by Terrence Chimunda. Rudsek aims to provide a supply of top class smart phones from china at a cheap price.</p>
           </div>
           <div className='flex justify-center w-full md:w-[auto] md:ml-4' >
             <Image

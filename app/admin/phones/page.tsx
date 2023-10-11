@@ -1,25 +1,28 @@
 import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
 export default function Admin() {
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center">
                 <div>
                     <h1 className="text-xl font-bold ">Phones</h1>
                     <p>manage your phones</p>
                 </div>
-                <div>
-                    <button className="bg-primary-blue rounded p-3 text-white">
-                        <FontAwesomeIcon icon={faPlus} className="text-white mr-5" />
-                        Add New Phone
-                    </button>
+                <div className="mt-10 md:mt-0">
+                    <a href="/admin/phones/new">
+                        <button className="bg-primary-blue rounded p-3 text-white w-full md:w-[auto]">
+                            <FontAwesomeIcon icon={faPlus} className="text-white mr-5" />
+                            Add New Phone
+                        </button>
+                    </a>
                 </div>
             </div>
             <div className="rounded p-5 border mt-10 shadow-sm">
                 <div className="relative mt-5">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="absolute top-4 left-3 text-gray-400" />
-                    <input type="text" placeholder="search" className="p-3 pl-8 border rounded " />
+                    <input type="text" placeholder="search" className="p-3 pl-8 border rounded w-full " />
                 </div>
                 <div className="mt-10">
                     <div className="flex flex-col justify-center h-full">

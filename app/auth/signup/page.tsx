@@ -55,7 +55,7 @@ export default function Page() {
 
                     <div className="text-grey-dark mt-6">
                         Already have an account? 
-                        <a className="no-underline border-b border-blue text-primary-blue" href="/auth/login/">
+                        <a className="no-underline border-b border-blue text-primary-blue" href="/auth/signin/">
                              Log in
                         </a>.
                     </div>

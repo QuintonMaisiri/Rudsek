@@ -1,3 +1,5 @@
+'use client'
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Searchbar from "../../components/searchbar/Searchbar";
 import { faCartShopping, faStar } from "@fortawesome/free-solid-svg-icons";
@@ -5,8 +7,13 @@ import PhoneCard from "../../components/phonecard/Phonecard";
 import Image from "next/image";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
+import { addToCart } from '@/redux/cart.slice';
+import {useDispatch} from "react-redux"
 
-export default function Phone() {
+export default async function Phone() {
+
+    const dispatch = useDispatch();
+    const products = await fetch('')
     return (
         <div>
             <Navbar />
@@ -107,8 +114,8 @@ export default function Phone() {
                             </table>
                         </div>
                     </div>
-                    <div className="md:col-span-2">
-                        <div className="border border-primary-blue p-5 mt-10">
+                    <div className="md:col-span-2 lg:col-span-1">
+                        <div className="border border-primary-blue p-5 md:mt-10 lg:mt-0">
                             <p className="text-primary-blue text-center font-bold ">Description</p>
                         </div>
                         <div>
@@ -128,7 +135,11 @@ export default function Phone() {
                                 </div>
                                 <p className="text-yellow-300 ml-5" >Add Stars</p>
                             </div>
-                            <button className="text-white bg-primary-blue w-full p-3" type="button"> <FontAwesomeIcon icon={faCartShopping} /> Add to cart</button>
+                            <button
+                             onClick={()=>{
+                                dispatch(addToCart(product))
+                            }}
+                             className="text-white bg-primary-blue w-full p-3" type="button"> <FontAwesomeIcon icon={faCartShopping} /> Add to cart</button>
                         </div>
                     </div>
                 </div>

@@ -1,10 +1,13 @@
+"use client"
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 
-export default function PhoneCard(){
+export default function PhoneCard({product} : {product : any}){
     return (
-        <div className="md:w-[220px] w-[160px] flex-shrink-0 mr-10 mb-5 inline rounded-lg shadow-lg p-2 md:p-5 bg-white">
+        <div 
+        className="md:w-[220px] w-[160px] flex-shrink-0 mr-10 mb-5 inline rounded-lg shadow-lg p-2 md:p-5 bg-white cursor-pointer">
+            <a href='/phones/id'>
             <div className='flex justify-center'>
                 <Image 
                 src={'/images/phone.jpg'}
@@ -20,6 +23,7 @@ export default function PhoneCard(){
                 </div>
                 <p className="font-bold mt-5 text-xs md:text-sm ">$300.00</p>
             </div>
+            </a>
         </div>
     )
 }

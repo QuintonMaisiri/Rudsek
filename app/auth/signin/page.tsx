@@ -1,7 +1,13 @@
+"use client"
 import { faShop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function Page() {
+    let [email, setEmail] = useState <String>();
+    let [password, setPassword] = useState <String>();
+
     return (
         <div>
             <section className="">
@@ -18,11 +24,11 @@ export default function Page() {
                             <form className="space-y-4 md:space-y-6" action="#">
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
-                                    <input type="email" name="email" id="email" className="border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 block w-full p-3" placeholder="name@company.com" required />
+                                    <input onChange={(e)=>setEmail(e.target.value)} type="email" autoComplete="email" name="email" id="email" className="border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 block w-full p-3" placeholder="name@company.com" required />
                                 </div>
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                                    <input type="password" name="password" id="password" placeholder="••••••••" className="border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 block w-full p-3 " required />
+                                    <input onChange={(e)=>setPassword(e.target.value)} type="password" name="password" id="password" autoComplete="password" placeholder="••••••••" className="border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 block w-full p-3 " required />
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-start">
@@ -35,9 +41,12 @@ export default function Page() {
                                     </div>
                                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline">Forgot password?</a>
                                 </div>
-                                <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
+                                <button type="button" disabled ={!email || !password} onClick={()=>{
+                                    signIn('credentials', {redirect: false, email, password})
+                                }}
+                                 className="w-full text-white bg-green-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
                                 <p className="text-sm font-light text-gray-500 ">
-                                    Don’t have an account yet? <a href="#" className="font-medium text-primary-blue  hover:underline">Sign up</a>
+                                    Don’t have an account yet? <a href="/auth/signup" className="font-medium text-primary-blue  hover:underline">Sign up</a>
                                 </p>
                             </form>
                         </div>

@@ -3,11 +3,15 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faCartShopping, faShop, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { signIn, useSession } from 'next-auth/react';
+import { useSelector} from "react-redux";
 
 export default function Navbar() {
+    const cart = useSelector((state : any )=> state.data);
+    const { data: session, status } = useSession()
     let [isMenuOpen, setIsMenuOpen] = useState(false)
     return (
-        <div className='shadow-sm bg-white w-full p-5 '>
+        <div className='shadow-sm bg-white w-full p-2 '>
             <div className='flex items-center justify-between lg:hidden'>
                 <div className='flex'>
                     <FontAwesomeIcon icon={faShop} className='text-primary-blue text-[24px]' />
@@ -38,7 +42,7 @@ export default function Navbar() {
                                 <a href='/phones'>All Phones</a>
                             </li>
                             <li className="mr-10">
-                                <a href='/#About'>About us</a>
+                                <a href='/#about'>About us</a>
                             </li>
                             <li className="mr-10">
                                 <a href='/contact-us'>Contact us</a>
@@ -46,7 +50,13 @@ export default function Navbar() {
                         </ul>
                     </div>
                     <div className="ml-10">
-                        <FontAwesomeIcon icon={faCartShopping} className='text-[24px]' />
+                        {session ? <div className='flex items-center '> 
+                            <FontAwesomeIcon icon={faCartShopping} className='text-[24px] mr-3' /> 
+                            <p className='font-bold text-white border rounded-full h-10 w-10 bg-primary-blue '>{cart.length}</p> 
+                        </div>
+                        : <button onClick={() => {
+                            signIn()
+                        }} className='rounded-full p-3 bg-primary-blue text-white shadow'>Sign in / up</button>}
                     </div>
                 </div>
             </nav>
@@ -72,13 +82,15 @@ export default function Navbar() {
                         <a href='/phones'>All Phones</a>
                     </li>
                     <li className="mb-5 text-center">
-                        <a href='/#About'>About us</a>
+                        <a href='/#About'>about us</a>
                     </li>
                     <li className="mb-5 text-center">
                         <a href='/contact-us'>Contact us</a>
                     </li>
                     <li className="mb-5 text-center">
-                        <FontAwesomeIcon icon={faCartShopping} className='text-[24px]' />
+                        {session ? <FontAwesomeIcon icon={faCartShopping} className='text-[24px]' /> : <button onClick={() => {
+                            signIn()
+                        }} className='rounded-full p-3 bg-primary-blue text-white shadow'>Sign in / up</button>}
                     </li>
                 </ul>
 

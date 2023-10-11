@@ -1,10 +1,20 @@
+"use client"
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/Footer'
 import CartItem from "../components/cart_item/CartItem";
+import { useSelector, useDispatch} from "react-redux";
+import { emptyCart } from "@/redux/cart.slice";
+
 
 export default function Cart() {
+    const dispatch = useDispatch();
+    const cart = useSelector((state : any) => state.data);
+    let total = 0 ;
+    cart.forEach((item : any) => {
+        total = total + item.quantity*item.price
+    });
     return (
         <div>
             <Navbar />
@@ -14,9 +24,11 @@ export default function Cart() {
 
                         <h2>Items</h2>
                         <div>
-                            <CartItem />
-                            <CartItem />
-                            <CartItem />
+                            {cart.map((item: any) => (
+                                <div>
+                                    < CartItem product={item}/>
+                                </div>
+                            ))}
                         </div>
 
                     </div>
@@ -24,9 +36,14 @@ export default function Cart() {
                         <h2 className="text-[28px] mb-10">Summary</h2>
                         <div className="flex justify-between mb-5">
                             <p>Total</p>
-                            <p className="text-[28px]">$300.00</p>
+                            <p className="text-[28px]">${total                              
+                            }</p>
                         </div>
-                        <button className="bg-white text-primary-blue rounded-lg p-3 w-full"> <FontAwesomeIcon icon={faCartShopping} /> Check Out</button>
+                        <button 
+                        onClick={()=>{
+                            dispatch(emptyCart())
+                        }}
+                        className="bg-white text-primary-blue rounded-lg p-3 w-full"> <FontAwesomeIcon icon={faCartShopping} /> Check Out</button>
                     </div>
                 </div>
             </div>
