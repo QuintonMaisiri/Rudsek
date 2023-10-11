@@ -69,7 +69,7 @@ export default function Admin() {
                                         <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                             <tr>
                                                 {tableHeadings.map((heading) => {
-                                                    return <th className="p-2 whitespace-nowrap">
+                                                    return <th className="p-2 whitespace-nowrap" key={heading}>
                                                         <div className="font-semibold text-left">{heading}</div>
                                                     </th>
                                                 })}
@@ -79,7 +79,7 @@ export default function Admin() {
                                             {/* 'Name','Size','Memory','Network','Back Camera','Front Camera','Sim Card','Android','Battery','FingerPrint' */}
                                             {phones.map((phone) => {
                                                 return (
-                                                    <tr>
+                                                    <tr key={phone.id}>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <div className="flex items-center">
                                                                 <div className="font-medium text-gray-800">{phone.data.name}</div>

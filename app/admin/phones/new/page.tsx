@@ -93,7 +93,7 @@ export default function NewPhone() {
                                 <option value="0">Select Brand</option>
                                 {brandOptions.map(
                                     (brand : any)=>{
-                                        return <option value={brand.data.name}>{brand.data.name}</option>
+                                        return <option key={brand.data.name} value={brand.data.name}>{brand.data.name}</option>
                                     }
                                 )}
                             </select>
@@ -112,7 +112,7 @@ export default function NewPhone() {
                                 <option value={0}>Select Network</option>
                                 {networkOptions.map(
                                     (network)=>{
-                                        return <option value={network}>{network}</option>
+                                        return <option key={network} value={network}>{network}</option>
                                     }
                                 )}
                             </select>
@@ -143,7 +143,7 @@ export default function NewPhone() {
                                 <option value={0}>Select android version</option>
                                 {androidOptions.map(
                                     (android)=>{
-                                        return <option value={android}> {android}</option>
+                                        return <option key={android} value={android}> {android}</option>
                                     }
                                 )}
                             </select>
@@ -156,7 +156,7 @@ export default function NewPhone() {
                                 <option value={0}>Select</option>
                                 {simCardOptions.map(
                                     (option)=>{
-                                        return <option value={option}>{option}</option>
+                                        return <option key={option} value={option}>{option}</option>
                                     }
                                 )}
                             </select>
@@ -169,7 +169,7 @@ export default function NewPhone() {
                                 <option value={0}>Select</option>
                                 {fingerPrintOptions.map(
                                     (option)=>{
-                                        return <option value={option}>{option}</option>
+                                        return <option key={option} value={option}>{option}</option>
                                     }
                                 )}
                             </select>
