@@ -1,16 +1,16 @@
 import { db } from "@/app/firebase";
-import { collection, addDoc, doc, getDocs, deleteDoc,getDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, deleteDoc, getDoc, query, where } from "firebase/firestore";
 
-async function getAllPhones(){
-    let phones : any =[];
-    const querySnapshot = await getDocs(collection(db,"phones"));
+async function getAllPhones() {
+    let phones: any = [];
+    const querySnapshot = await getDocs(collection(db, "phones"));
     querySnapshot.forEach((doc) => {
-      let phone = {id:doc.id, data:doc.data()}
-      phones.push(phone);
+        let phone = { id: doc.id, data: doc.data() }
+        phones.push(phone);
     });
 
     return phones;
-    
+
 }
 
 async function addNewPhone(name: String, brand: String, size: String, network: String, battery: String, frontCamera: String, backCamera: String, fingerPrint: String, android: String, description: String, simCard: String, price: String, memory: String) {
@@ -33,7 +33,7 @@ async function addNewPhone(name: String, brand: String, size: String, network: S
 }
 
 async function getBrands() {
-    let brands : any = [] ;
+    let brands: any = [];
     const querySnapshot = await getDocs(collection(db, 'brands'));
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
@@ -45,22 +45,43 @@ async function getBrands() {
 
 }
 
-async function getPhone(phoneId : any){
-    const phoneRef = doc(db,"phones",phoneId);
-    const docSnap = await getDoc(phoneRef);
-    if (docSnap.exists()) {
-      return docSnap.data()
-      } else {
-       return {msg: 'no such document'}
-      }
-    
-      
+async function getPhonesByBrand(brand: string) {
+    let phones : any = []
+    const q = query(collection(db, 'phones'), where("brand", "==", brand));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        phones.push({id:doc.id, data: doc.data()})
+    });
+    return phones
 }
 
-async function deletePhone(phoneId : any){
-    const phoneRef = doc(db,"phones",phoneId)
+async function getPhonesByQuery(word: string){
+    let phones : any =[]
+    console.log(word)
+    const q = query(collection(db, 'phones'), where("brand", ">=", word));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        phones.push({id:doc.id, data: doc.data()})
+    });
+    return phones
+}
+
+async function getPhone(phoneId: any) {
+    const phoneRef = doc(db, "phones", phoneId);
+    const docSnap = await getDoc(phoneRef);
+    if (docSnap.exists()) {
+        return docSnap.data()
+    } else {
+        return { msg: 'no such document' }
+    }
+
+
+}
+
+async function deletePhone(phoneId: any) {
+    const phoneRef = doc(db, "phones", phoneId)
     await deleteDoc(phoneRef);
 
 }
 
-export { getBrands, addNewPhone, getAllPhones, deletePhone, getPhone }
+export { getBrands, addNewPhone, getAllPhones, deletePhone, getPhone, getPhonesByBrand, getPhonesByQuery }

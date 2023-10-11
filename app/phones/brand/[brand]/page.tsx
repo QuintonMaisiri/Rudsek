@@ -1,18 +1,20 @@
 'use client'
-import Footer from "../components/footer/Footer";
-import Navbar from "../components/navbar/Navbar";
-import PhoneCard from "../components/phonecard/Phonecard";
-import Searchbar from "../components/searchbar/Searchbar";
+import Footer from "@/app/components/footer/Footer";
+import Navbar from "@/app/components/navbar/Navbar";
+import PhoneCard from "@/app/components/phonecard/Phonecard";
+import Searchbar from "@/app/components/searchbar/Searchbar";
 import { getPhonesByBrand } from "@/app/dbengine";
 import { useState, useEffect } from "react";
-export default function Phone() {
+
+export default function Page({ params }: { params: { brand: String } }) {
     let [phones, setPhones] = useState([])
 
     useEffect(() => {
         (async () => {
             try {
-                const res = await getPhonesByBrand()
+                const res = await getPhonesByBrand(params.brand as string)
                 setPhones(res)
+                console.log(phones)
             } catch (e) {
                 console.log(e);
             }
