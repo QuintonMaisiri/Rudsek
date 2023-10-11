@@ -17,20 +17,6 @@ async function addNewPhone(name: String, brand: String, size: String, network: S
         price: price,
         // image: image
     })
-    console.log(
-        name,
-        brand,
-        size,
-        network,
-        battery,
-        frontCamera,
-        backCamera,
-        fingerPrint,
-        android,
-        description,
-        simCard,
-        price,
-    )
 }
 
 async function getBrands() {

@@ -52,6 +52,22 @@ export default function NewPhone() {
         'no'
     ]
 
+    function resetFields(){
+         setName(undefined)
+         setBrand(undefined)
+         setSize(undefined)
+         setNetwork(undefined)
+         setBattery(undefined)
+         setFrontCamera(undefined)
+        setBackCamera(undefined)
+        setFingerPrint(undefined)
+         setAndroid(undefined)
+         setDescription(undefined)
+         setSimcard(undefined)
+        setPrice(undefined)
+        setImage(undefined)
+    }
+
     
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
@@ -180,7 +196,9 @@ export default function NewPhone() {
                 <button
                     type="button"
                     disabled ={!name || !brand || !size || !network || !battery || !frontCamera || !backCamera || ! fingerPrint || !android || ! description || ! simCard || !price}  
-                    onClick={() => addNewPhone( name, brand, size, network, battery, frontCamera, backCamera, fingerPrint, android,description, simCard,price)}
+                    onClick={() => {addNewPhone( name, brand, size, network, battery, frontCamera, backCamera, fingerPrint, android,description, simCard,price);
+                        window.alert("Phone added successfully")
+                    }}
                     className="rounded p-3 bg-primary-blue text-white mt-10 w-[120px]">
                     Submit
                 </button>
