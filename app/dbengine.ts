@@ -1,5 +1,16 @@
 import { db } from "@/app/firebase";
-import { collection, addDoc, doc, getDocs, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, deleteDoc,getDoc } from "firebase/firestore";
+
+async function getAllPhones(){
+    let phones =[];
+    const querySnapshot = await getDocs(collection(db,"phones"));
+    querySnapshot.forEach((doc) => {
+      let phone = {id:doc.id, data:doc.data()}
+      phones.push(phone);
+    });
+
+    return phones;
+}
 
 async function addNewPhone(name: String, brand: String, size: String, network: String, battery: String, frontCamera: String, backCamera: String, fingerPrint: String, android: String, description: String, simCard: String, price: String) {
     await addDoc(collection(db, 'phones'), {
@@ -32,10 +43,20 @@ async function getBrands() {
 
 }
 
+async function getPhone(phoneId : any){
+    const phoneRef = doc(db,"phones",phoneId);
+    const docSnap = await getDoc(phoneRef);
+    if (docSnap.exists()) {
+      return docSnap.data()
+      } else {
+       return {msg: 'no such document'}
+      }
+}
+
 async function deletePhone(phoneId : any){
     const phoneRef = doc(db,"phones",phoneId)
     await deleteDoc(phoneRef);
 
 }
 
-export { getBrands, addNewPhone }
+export { getBrands, addNewPhone, getAllPhones }

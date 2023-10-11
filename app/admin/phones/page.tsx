@@ -1,8 +1,25 @@
+'use client'
 import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getAllPhones } from "@/app/dbengine";
+import { useState, useEffect } from "react";
 
 
 export default function Admin() {
+
+    let [phones, setPhones] = useState();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await getAllPhones()
+                setPhones(res)
+            } catch (e) {
+                console.log(e);
+            }
+        })();
+    }, []);
+
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center">
@@ -32,101 +49,85 @@ export default function Admin() {
                                     <table className="table-auto w-full">
                                         <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                             <tr>
-                                                <th className="p-2 whitespace-nowrap">
-                                                    <div className="font-semibold text-left">Name</div>
-                                                </th>
-                                                <th className="p-2 whitespace-nowrap">
-                                                    <div className="font-semibold text-left">Email</div>
-                                                </th>
-                                                <th className="p-2 whitespace-nowrap">
-                                                    <div className="font-semibold text-left">Spent</div>
-                                                </th>
-                                                <th className="p-2 whitespace-nowrap">
-                                                    <div className="font-semibold text-center">Country</div>
-                                                </th>
+                                                {phones.forEach((phone) => {
+                                                    return <th className="p-2 whitespace-nowrap">
+                                                        <div className="font-semibold text-left">{phone.data.name}</div>
+                                                    </th>
+                                                })}
                                             </tr>
                                         </thead>
                                         <tbody className="text-sm divide-y divide-gray-100">
-                                            <tr>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="flex items-center">
-                                                        <div className="font-medium text-gray-800">Alex Shatov</div>
-                                                    </div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left">alexshatov@gmail.com</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left font-medium text-green-500">$2,890.66</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-lg text-center">??</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="flex items-center">
-                                                        <div className="font-medium text-gray-800">Philip Harbach</div>
-                                                    </div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left">philip.h@gmail.com</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left font-medium text-green-500">$2,767.04</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-lg text-center">??</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="flex items-center">
-                                                        <div className="font-medium text-gray-800">Mirko Fisuk</div>
-                                                    </div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left">mirkofisuk@gmail.com</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left font-medium text-green-500">$2,996.00</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-lg text-center">??</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="flex items-center">
-                                                        <div className="font-medium text-gray-800">Olga Semklo</div>
-                                                    </div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left">olga.s@cool.design</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left font-medium text-green-500">$1,220.66</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-lg text-center">??</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="flex items-center">
-                                                        <div className="font-medium text-gray-800">Burak Long</div>
-                                                    </div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left">longburak@gmail.com</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-left font-medium text-green-500">$1,890.66</div>
-                                                </td>
-                                                <td className="p-2 whitespace-nowrap">
-                                                    <div className="text-lg text-center">??</div>
-                                                </td>
-                                            </tr>
+                                                {phones.forEach((phone) => {
+                                                    return(
+                                                    <tr>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.brand}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">{phone.data.name}</div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    )
+                                                })}
                                         </tbody>
                                     </table>
                                 </div>
