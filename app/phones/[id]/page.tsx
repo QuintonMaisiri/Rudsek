@@ -12,12 +12,13 @@ import { useDispatch } from "react-redux"
 import { useState, useEffect } from "react";
 import { getAllPhones, getPhone } from "@/app/dbengine";
 import { set } from "firebase/database";
+import { DocumentData } from "firebase/firestore";
 
 
 export default function Phone({ params }: { params: { id: string } }) {
 
     const dispatch = useDispatch();
-    let [phone, setPhone] = useState({ 
+    let [phone, setPhone] = useState<DocumentData>({ 
         name: 'nothing',
         brand: 'nothing',
         size: 'nothing',
