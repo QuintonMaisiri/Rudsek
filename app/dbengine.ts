@@ -57,12 +57,11 @@ async function getPhonesByBrand(brand: string) {
 
 async function getPhonesByQuery(word: string){
     let phones : any =[]
-    console.log(word)
-    const q = query(collection(db, 'phones'), where("brand", ">=", word));
+    const q = query(collection(db, 'phones'), where("name", ">=", word));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         phones.push({id:doc.id, data: doc.data()})
-    });
+    });console.log(phones)
     return phones
 }
 

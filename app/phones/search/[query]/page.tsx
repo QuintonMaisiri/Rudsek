@@ -1,8 +1,8 @@
 'use client'
-import Footer from "../components/footer/Footer";
-import Navbar from "../components/navbar/Navbar";
-import PhoneCard from "../components/phonecard/Phonecard";
-import Searchbar from "../components/searchbar/Searchbar";
+import Footer from "@/app/components/footer/Footer";
+import Navbar from "@/app/components/navbar/Navbar";
+import PhoneCard from "@/app/components/phonecard/Phonecard";
+import Searchbar from "@/app/components/searchbar/Searchbar";
 import { getPhonesByQuery } from "@/app/dbengine";
 import { useState, useEffect } from "react";
 export default function Phone({params} : {params  : {query : string}}) {

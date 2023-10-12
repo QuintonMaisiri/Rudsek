@@ -3,8 +3,8 @@ import Image from 'next/image';
 export default function BrandCard({name} : {name: string}) {
     return (
         <div
-         className="bg-primary-blue p-5 rounded-lg flex items-center shadow-md">
-            <a href={`/phones/brand/${name}`}>
+         className="bg-primary-blue p-5 rounded-lg shadow-md">
+            <a href={`/phones/brand/${name}`} className='flex items-center '>
             <div>
                 <Image
                     src={'/images/hauwei-logo.jpg'}

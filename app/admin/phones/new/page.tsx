@@ -6,20 +6,20 @@ import {addNewPhone, getBrands} from '@/app/dbengine'
 
 export default function NewPhone() {
     let [brandOptions, setBrandOptions] =useState([]);
-    let [name, setName] = useState<String >();
-    let [brand, setBrand] = useState<String>();
-    let [size, setSize] = useState<String>();
-    let [network, setNetwork] = useState<String>();
-    let [battery, setBattery] = useState<String>();
-    let [frontCamera, setFrontCamera] = useState<String>();
-    let [backCamera, setBackCamera] = useState<String>();
-    let [fingerPrint, setFingerPrint] = useState<String>();
-    let [android, setAndroid] = useState<String>();
-    let [description, setDescription] = useState<String>();
-    let [simCard, setSimcard] = useState<String>();
-    let [price, setPrice] = useState<String>();
-    let [memory,setMemory] = useState<String>();
-    let [image, setImage] = useState<String>();
+    let [name, setName] = useState<string >();
+    let [brand, setBrand] = useState<string>();
+    let [size, setSize] = useState<string>();
+    let [network, setNetwork] = useState<string>();
+    let [battery, setBattery] = useState<string>();
+    let [frontCamera, setFrontCamera] = useState<string>();
+    let [backCamera, setBackCamera] = useState<string>();
+    let [fingerPrint, setFingerPrint] = useState<string>();
+    let [android, setAndroid] = useState<string>();
+    let [description, setDescription] = useState<string>();
+    let [simCard, setSimcard] = useState<string>();
+    let [price, setPrice] = useState<string>();
+    let [memory,setMemory] = useState<string>();
+    let [image, setImage] = useState<string>();
 
     useEffect(() => {
         (async () => {
@@ -54,19 +54,19 @@ export default function NewPhone() {
     ]
 
     function resetFields(){
-         setName(undefined)
-         setBrand(undefined)
-         setSize(undefined)
-         setNetwork(undefined)
-         setBattery(undefined)
-         setFrontCamera(undefined)
-        setBackCamera(undefined)
-        setFingerPrint(undefined)
-         setAndroid(undefined)
-         setDescription(undefined)
-         setSimcard(undefined)
-        setPrice(undefined)
-        setImage(undefined)
+         setName('')
+         setBrand('0')
+         setSize('')
+         setNetwork('')
+         setBattery('')
+         setFrontCamera('')
+        setBackCamera('')
+        setFingerPrint('')
+         setAndroid('')
+         setDescription('')
+         setSimcard('')
+        setPrice('')
+        setImage('')
     }
 
     
@@ -82,12 +82,14 @@ export default function NewPhone() {
                     <div>
                         <h2 className="mb-2">Phone Name</h2>
                         <input
+                        value={name}
                             onChange={(e) => setName(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Brand</h2>
                         <select
+                        value={brand}
                             onChange={(e) => setBrand(e.target.value)}
                             className="p-2 border rounded w-full" defaultValue={0}>
                                 <option value="0">Select Brand</option>
@@ -101,12 +103,14 @@ export default function NewPhone() {
                     <div>
                         <h2 className="mb-2">Size</h2>
                         <input
+                        value={size}
                             onChange={(e) => setSize(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Network</h2>
                         <select
+                        value={network}
                             onChange={(e) => setNetwork(e.target.value)}
                             className="p-2 border rounded w-full" defaultValue={0}>
                                 <option value={0}>Select Network</option>
@@ -120,24 +124,28 @@ export default function NewPhone() {
                     <div>
                         <h2 className="mb-2">Battery</h2>
                         <input
+                        value={battery}
                             onChange={(e) => setBattery(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Front Camera</h2>
                         <input
+                        value={frontCamera}
                             onChange={(e) => setFrontCamera(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Back Camera</h2>
                         <input
+                        value={backCamera}
                             onChange={(e) => setBackCamera(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Android</h2>
                         <select
+                        value={android}
                             onChange={(e) => setAndroid(e.target.value)}
                             className="p-2 border rounded w-full " defaultValue={0}>
                                 <option value={0}>Select android version</option>
@@ -151,6 +159,7 @@ export default function NewPhone() {
                     <div>
                         <h2 className="mb-2">Sim Card</h2>
                         <select
+                        value={simCard}
                             onChange={(e) => setSimcard(e.target.value)}
                             className="p-2 border rounded w-full" defaultValue={0}>
                                 <option value={0}>Select</option>
@@ -164,6 +173,7 @@ export default function NewPhone() {
                     <div>
                         <h2 className="mb-2">Finger Print</h2>
                         <select
+                        value={fingerPrint}
                             onChange={(e) => setFingerPrint(e.target.value)}
                             className="p-2 border rounded w-full" defaultValue={0}>
                                 <option value={0}>Select</option>
@@ -177,12 +187,14 @@ export default function NewPhone() {
                     <div>
                         <h2 className="mb-2">Price</h2>
                         <input
+                        value={price}
                             onChange={(e) => setPrice(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Memory</h2>
                         <input
+                        value={memory}
                             onChange={(e) => setMemory(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
