@@ -52,3 +52,4 @@ export default function Phone({params} : {params  : {query : string}}) {
         </div>
     )
 }
+export const dynamic = 'force-dynamic'

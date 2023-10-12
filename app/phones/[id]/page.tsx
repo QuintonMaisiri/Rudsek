@@ -217,3 +217,4 @@ export default function Phone({ params }: { params: { id: string } }) {
 
     )
 }
+export const dynamic = 'force-dynamic'

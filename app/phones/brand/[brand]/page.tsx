@@ -54,3 +54,4 @@ export default function Page({ params }: { params: { brand: String } }) {
         </div>
     )
 }
+export const dynamic = 'force-dynamic'

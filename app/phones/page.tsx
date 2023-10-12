@@ -52,3 +52,4 @@ export default function Phone() {
         </div>
     )
 }
+export const dynamic = 'force-dynamic'

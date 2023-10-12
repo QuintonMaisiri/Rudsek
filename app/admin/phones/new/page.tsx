@@ -226,3 +226,4 @@ export default function NewPhone() {
         </div>
     )
 }
+export const dynamic = 'force-dynamic'
