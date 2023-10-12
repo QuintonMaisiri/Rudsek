@@ -1,5 +1,5 @@
 import { db } from "@/app/firebase";
-import { collection, addDoc, doc, getDocs, deleteDoc, getDoc, query, where } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, deleteDoc, getDoc, query, where, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
 
 async function getAllPhones() {
     let phones: any = [];
@@ -46,22 +46,22 @@ async function getBrands() {
 }
 
 async function getPhonesByBrand(brand: string) {
-    let phones : any = []
+    let phones: any = []
     const q = query(collection(db, 'phones'), where("brand", "==", brand));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        phones.push({id:doc.id, data: doc.data()})
+        phones.push({ id: doc.id, data: doc.data() })
     });
     return phones
 }
 
-async function getPhonesByQuery(word: string){
-    let phones : any =[]
+async function getPhonesByQuery(word: string) {
+    let phones: any = []
     const q = query(collection(db, 'phones'), where("name", ">=", word));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        phones.push({id:doc.id, data: doc.data()})
-    });console.log(phones)
+        phones.push({ id: doc.id, data: doc.data() })
+    }); console.log(phones)
     return phones
 }
 
@@ -83,4 +83,13 @@ async function deletePhone(phoneId: any) {
 
 }
 
-export { getBrands, addNewPhone, getAllPhones, deletePhone, getPhone, getPhonesByBrand, getPhonesByQuery }
+async function addComment(phoneID: string) {
+    const phoneRef = doc(db, "phones", phoneID);
+    await updateDoc(phoneRef, {
+        comments: arrayUnion({ user: "name", comment: "comment", date: serverTimestamp() })
+    });
+
+
+}
+
+export { getBrands, addNewPhone, getAllPhones, deletePhone, getPhone, getPhonesByBrand, getPhonesByQuery, addComment }

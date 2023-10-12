@@ -18,7 +18,7 @@ import { DocumentData } from "firebase/firestore";
 export default function Phone({ params }: { params: { id: string } }) {
 
     const dispatch = useDispatch();
-    let [phone, setPhone] = useState<DocumentData>({ 
+    let [phone, setPhone] = useState<DocumentData>({
         name: 'nothing',
         brand: 'nothing',
         size: 'nothing',
@@ -32,8 +32,11 @@ export default function Phone({ params }: { params: { id: string } }) {
         simCard: 'nothing',
         price: 'nothing',
         memory: 'nothing'
-    } )
-    let [phones,setPhones] = useState([])
+    })
+    let [phones, setPhones] = useState([])
+    let [showComments, setShowComments] = useState(false)
+    let [comment, setComment] = useState<string>()
+
 
     const id = params.id
     console.log(phone)
@@ -120,37 +123,37 @@ export default function Phone({ params }: { params: { id: string } }) {
                                     <tr className="border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Network</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {phone.network}
+                                            {phone.network}
                                         </td>
                                     </tr>
                                     <tr className="bg-primary-blue border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Front Camera</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {phone.frontCamera}
+                                            {phone.frontCamera}
                                         </td>
                                     </tr>
                                     <tr className="border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Battery</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {phone.battery}
+                                            {phone.battery}
                                         </td>
                                     </tr>
                                     <tr className="bg-primary-blue border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Back Camera</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {phone.backCamera}
+                                            {phone.backCamera}
                                         </td>
                                     </tr>
                                     <tr className="border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Fingerprint</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {phone.fingerPrint}
+                                            {phone.fingerPrint}
                                         </td>
                                     </tr>
                                     <tr className="bg-primary-blue border-b">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Android</td>
                                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {phone.android}
+                                            {phone.android}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -195,8 +198,26 @@ export default function Phone({ params }: { params: { id: string } }) {
                         <textarea className="w-full resize-none" placeholder="Leave a comment ..." rows={5} />
                     </div>
                     <div>
-                        <p className="text-sm text-primary-blue text-end mt-5">View Comments</p>
+                        <p
+                            onClick={
+                                () => { setShowComments(!showComments) }
+                            }
+                            className="text-sm text-primary-blue text-end mt-5">{showComments ? "Close comments" : "View Comments"}</p>
                     </div>
+                    {showComments
+                        ?
+                        <div>
+                            {!phone.data.comments.map((comment: any) => {
+                                return <div key={comment} className="w-full my-5 p-5">
+                                    <p className="text-base">{comment.comment}</p>
+                                    <p className="text-xs md:text-sm text-gray-400">By {comment.user}</p>
+                                    <p className="text-xs md:text-sm text-priamry-blue text-right">{comment.date.toDate()}</p>
+                                </div>
+                            })}
+
+                        </div>
+                        :
+                        null}
                 </div>
 
                 <div className='mt-20 overflow-hidden'>
