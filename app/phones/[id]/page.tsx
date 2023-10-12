@@ -180,7 +180,7 @@ export default function Phone({ params }: { params: { id: string } }) {
                             </div>
                             <button
                                 onClick={() => {
-                                    dispatch(addToCart(phone))
+                                    dispatch(addToCart(phone as any))
                                 }}
                                 className="text-white bg-primary-blue w-full p-3" type="button"> <FontAwesomeIcon icon={faCartShopping} /> Add to cart</button>
                         </div>
