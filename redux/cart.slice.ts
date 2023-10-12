@@ -4,7 +4,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: { data: [] },
   reducers: {
-    addToCart: (state, action) => {
+    addToCart: (state : any, action : any) => {
       const itemExists: any = state.data.find((item: any) => item.id === action.payload.id)
       if (itemExists) {
         itemExists.quantity++;
