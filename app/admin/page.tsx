@@ -4,13 +4,34 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSession } from 'next-auth/react';
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Admin() {
     const { data: session } = useSession();
-    
-    if(!session){
-        redirect('/auth/signin')
-    }
+
+    const { status: sessionStatus } = useSession();
+    const authorized = sessionStatus === 'authenticated';
+    const unAuthorized = sessionStatus === 'unauthenticated';
+    const loading = sessionStatus === 'loading';
+
+    useEffect(() => {
+        // check if the session is loading or the router is not ready
+        if (loading) return;
+
+        // if the user is not authorized, redirect to the login page
+        // with a return url to the current page
+        if (unAuthorized) {
+            console.log('not authorized');
+            redirect('/auth/signin')
+        }
+    }, [loading, unAuthorized, sessionStatus]);
+
+    if (loading) {
+        return <>Loading app...</>;
+      }
+
+      console.log(session!)
+
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
             <div>

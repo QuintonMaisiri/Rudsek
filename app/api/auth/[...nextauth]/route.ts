@@ -8,33 +8,41 @@ const handler = NextAuth({
         CredentialsProvider({
             name: "Credentials",
             credentials: {},
-            async authorize(credentials, req) : Promise <any> {
-                console.log('madiii')
-                return await signInWithEmailAndPassword(auth, (credentials as any).email || '',(credentials as any).password || '')
-                .then(
-                    userCredential =>{
-                        if (userCredential.user){
-                            return userCredential.user
+            async authorize(credentials, req): Promise<any> {
+                return await signInWithEmailAndPassword(auth, (credentials as any).email || '', (credentials as any).password || '')
+                    .then(
+                        userCredential => {
+                            if (userCredential.user) {
+                                return userCredential.user
+                            }
+                            return null;
                         }
-                        return null;
-                    }
-                )
-                .catch(
-                    error =>(console.log(error))
-                )
+                    )
+                    .catch(
+                        error => (console.log(error))
+                    )
             }
         })
     ],
     pages: {
         signIn: '/auth/signin'
     },
-    debug: process.env.NODE_ENV === 'development',
     session: {
-        // Set to jwt in order to CredentialsProvider works properly
-        strategy: 'jwt'
+        strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+    },
+    callbacks: {
+        async jwt({ token, user }) {
+            return { ...token, ...user };
+        },
+        async session({ session, token, user }) {
+            // Send properties to the client, like an access_token from a provider.
+            session.user = token;
+            return session;
+        },
       }
+
 });
-export const dynamic = "force-static";
 
 export { handler as GET, handler as POST }
 

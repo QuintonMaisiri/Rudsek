@@ -10,9 +10,10 @@ import Footer from "../../components/footer/Footer";
 import { addToCart } from '@/redux/cart.slice';
 import { useDispatch } from "react-redux"
 import { useState, useEffect } from "react";
-import { getAllPhones, getPhone } from "@/app/dbengine";
-import { set } from "firebase/database";
+import { addComment, getAllPhones, getComments, getPhone } from "@/app/dbengine";
 import { DocumentData } from "firebase/firestore";
+import Rating from "@/app/components/rating/rating";
+import ImageSlider from "@/app/components/image_slider/image_slider";
 
 
 export default function Phone({ params }: { params: { id: string } }) {
@@ -31,23 +32,26 @@ export default function Phone({ params }: { params: { id: string } }) {
         description: 'nothing',
         simCard: 'nothing',
         price: 'nothing',
-        memory: 'nothing'
+        memory: 'nothing',
+        comments: [{ user: 'nothing', comment: 'nothing', date: '02/02/2002' }]
     })
-    let [phones, setPhones] = useState([])
+    let [phones, setPhones] = useState<any>([])
     let [showComments, setShowComments] = useState(false)
     let [comment, setComment] = useState<string>()
-
+    let [comments, setComments] = useState([{}])
 
     const id = params.id
-    console.log(phone)
+    const userID = "myuserid"
 
     useEffect(() => {
         (async () => {
             try {
                 const resPhone = await getPhone(id)
                 const resPhones = await getAllPhones()
+                const resComments = await getComments(id)
                 setPhone(resPhone)
                 setPhones(resPhones)
+                setComments(resComments)
             } catch (e) {
                 console.log(e);
             }
@@ -60,44 +64,11 @@ export default function Phone({ params }: { params: { id: string } }) {
             <div className="w-11/12 lg:w-5/6 m-auto ">
                 <Searchbar />
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <div className="">
-                        <Image
-                            src={'/images/phone.jpg'}
-                            width={200}
-                            height={300}
-                            alt="hauwei phone"
-                            className="mx-[auto] mb-5"
-                        />
-                        <div className="grid grid-cols-3">
-
-                            <Image
-                                src={'/images/phone.jpg'}
-                                width={50}
-                                height={300}
-                                alt="hauwei phone"
-                            />
-                            <Image
-                                src={'/images/phone.jpg'}
-                                width={50}
-                                height={300}
-                                alt="hauwei phone"
-                            />
-
-                            <Image
-                                src={'/images/phone.jpg'}
-                                width={50}
-                                height={300}
-                                alt="hauwei phone"
-                            />
-
-
-                        </div>
-                        <div className="grid grid-cols-5 w-1/3 mt-5">
-                            <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                            <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                            <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                            <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                            <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
+                    <div>
+                        <ImageSlider />
+                        <div className="flex items-center w-1/3 mt-5">
+                            <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-lg" />
+                            <p className="ml-3 text-lg font-bold text-yellow-400">{phone.rating}</p>
                         </div>
 
                     </div>
@@ -171,15 +142,8 @@ export default function Phone({ params }: { params: { id: string } }) {
                             <p>{phone.description}</p>
                         </div>
                         <div>
-                            <div className="flex items-center mb-5 mt-5">
-                                <div className="grid grid-cols-5 w-1/3">
-                                    <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                                    <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                                    <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                                    <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                                    <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-xl" />
-                                </div>
-                                <p className="text-yellow-300 ml-5" >Add Stars</p>
+                            <div>
+                                <Rating props={{ userID: userID, phoneID: id }} />
                             </div>
                             <button
                                 onClick={() => {
@@ -195,25 +159,42 @@ export default function Phone({ params }: { params: { id: string } }) {
                         Customer Reviews
                     </h2>
                     <div className='border border-primary-blue rounded-lg p-3'>
-                        <textarea className="w-full resize-none" placeholder="Leave a comment ..." rows={5} />
+                        <textarea
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            className="w-full resize-none" placeholder="Leave a comment ..." rows={5} />
+                    </div>
+                    <div className="flex justify-end" >
+                        <button
+                            disabled={!comment}
+                            onClick={() => {
+                                addComment(id)
+                                setComment("")
+                            }}
+                            className="text-white bg-primary-blue my-5 p-3 "
+                            type="button">Add comment</button>
                     </div>
                     <div>
                         <p
                             onClick={
                                 () => { setShowComments(!showComments) }
                             }
-                            className="text-sm text-primary-blue text-end mt-5">{showComments ? "Close comments" : "View Comments"}</p>
+                            className="text-sm text-primary-blue text-end mt-5 cursor-pointer">{showComments ? "Close comments" : "View Comments"}</p>
                     </div>
                     {showComments
                         ?
                         <div>
-                            {!phone.data.comments.map((comment: any) => {
-                                return <div key={comment} className="w-full my-5 p-5">
-                                    <p className="text-base">{comment.comment}</p>
-                                    <p className="text-xs md:text-sm text-gray-400">By {comment.user}</p>
-                                    <p className="text-xs md:text-sm text-priamry-blue text-right">{comment.date.toDate()}</p>
-                                </div>
-                            })}
+                            {
+                                comments.map((comment: any) => {
+                                    return <div key={comment} className="w-full my-5 p-5">
+                                        <p className="text-base">{comment.comment}</p>
+                                        <div className="flex justify-between mt-5">
+                                            <p className="text-xs md:text-sm text-gray-400">{comment.user == undefined ? "no comments" : <span className="rounded-full border bg-primary-blue text-white border-primary-blue py-1 px-3 ">{` ${comment.user}`}</span>}</p>
+                                            <p className="text-xs md:text-sm text-primary-blue text-right">{comment.date}</p>
+                                        </div>
+                                    </div>
+                                })
+                            }
 
                         </div>
                         :

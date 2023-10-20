@@ -3,6 +3,7 @@ import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState, useEffect } from "react";
 import {addNewPhone, getBrands} from '@/app/dbengine'
+// import fs from 'fs'
 
 export default function NewPhone() {
     let [brandOptions, setBrandOptions] =useState([]);
@@ -19,7 +20,7 @@ export default function NewPhone() {
     let [simCard, setSimcard] = useState<string>();
     let [price, setPrice] = useState<string>();
     let [memory,setMemory] = useState<string>();
-    let [image, setImage] = useState<string>();
+    let [image, setImage] = useState<any>();
 
     useEffect(() => {
         (async () => {
@@ -208,14 +209,21 @@ export default function NewPhone() {
                         <h2 className="mb-2">Phone Image</h2>
                         <div className="p-2 border rounded w-full h-40 border border-primary-blue hover:bg-primary-blue flex items-center justify-center text-primary-blue hover:text-white" >
                             <FontAwesomeIcon icon={faCloudArrowUp} className="text-4xl mr-3" />
-                            <p>Drag and drop a file to upload</p>
+                            <input type="file" id="img" name="img" accept="image/*" value={image} onChange={(e)=>{
+                                if (e.target.files){
+                                    const file = e.target.files[0]
+                                    setImage(file)
+                                    console.log()
+                                }
+                                
+                            }}/>
                         </div>
                     </div>
                 </div>
                 <button
                     type="button"
                     disabled ={!name || !brand || !size || !network || !battery || !frontCamera || !backCamera || ! fingerPrint || !android || ! description || ! simCard || !price}  
-                    onClick={() => {addNewPhone( name !, brand !, size !, network !, battery !, frontCamera !, backCamera !, fingerPrint !, android !,description !, simCard !,price !,memory !);
+                    onClick={() => {addNewPhone( name !, brand !, size !, network !, battery !, frontCamera !, backCamera !, fingerPrint !, android !,description !, simCard !,price !,memory !,image !);
                         resetFields();
                         window.alert("Phone added successfully");
                     }}

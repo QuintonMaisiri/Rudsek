@@ -4,16 +4,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/Footer'
 import CartItem from "../components/cart_item/CartItem";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { emptyCart } from "@/redux/cart.slice";
+import { createOrder } from "../dbengine";
+import { OrderItem } from "@/app/components/interfaces/order_item"
 
 
 export default function Cart() {
+
+    let orders : OrderItem[] = []
+    const userID = "someUserID"
+
     const dispatch = useDispatch();
-    const cart = useSelector((state : any) => state.data);
-    let total = 0 ;
-    cart.forEach((item : any) => {
-        total = total + item.quantity*item.price
+    const cart = useSelector((state: any) => state.data);
+    let total = 0;
+    cart.forEach((item: any) => {
+        total = total + item.quantity * item.price
+        const order : OrderItem = { name: item.name, price: item.price, qty: item.quantity, }
+        orders.push(order)
     });
     return (
         <div>
@@ -26,7 +34,7 @@ export default function Cart() {
                         <div>
                             {cart.map((item: any) => (
                                 <div key={item.id}>
-                                    < CartItem product={item}/>
+                                    < CartItem product={item} />
                                 </div>
                             ))}
                         </div>
@@ -36,14 +44,18 @@ export default function Cart() {
                         <h2 className="text-[28px] mb-10">Summary</h2>
                         <div className="flex justify-between mb-5">
                             <p>Total</p>
-                            <p className="text-[28px]">${total                              
+                            <p className="text-[28px]">${total
                             }</p>
                         </div>
-                        <button 
-                        onClick={()=>{
-                            dispatch(emptyCart())
-                        }}
-                        className="bg-white text-primary-blue rounded-lg p-3 w-full"> <FontAwesomeIcon icon={faCartShopping} /> Check Out</button>
+                        <button
+                            onClick={() => {
+                                dispatch(emptyCart())
+                                createOrder(
+                                    userID,
+                                    orders
+                                )
+                            }}
+                            className="bg-white text-primary-blue rounded-lg p-3 w-full"> <FontAwesomeIcon icon={faCartShopping} /> Check Out</button>
                     </div>
                 </div>
             </div>

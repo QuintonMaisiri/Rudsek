@@ -3,13 +3,17 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faCartShopping, faShop, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { signIn, useSession } from 'next-auth/react';
-import { useSelector} from "react-redux";
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useDispatch, useSelector } from "react-redux";
+import { emptyCart } from '@/redux/cart.slice';
 
 export default function Navbar() {
-    const cart = useSelector((state : any )=> state.data);
+    const cart = useSelector((state: any) => state.data);
     const { data: session, status } = useSession()
     let [isMenuOpen, setIsMenuOpen] = useState(false)
+
+    const dispatch = useDispatch()
+
     return (
         <div className='shadow-sm bg-white w-full p-2 '>
             <div className='flex items-center justify-between lg:hidden'>
@@ -47,16 +51,29 @@ export default function Navbar() {
                             <li className="mr-10">
                                 <a href='/contact-us'>Contact us</a>
                             </li>
+                            {session ?
+                                <li className="mr-10">
+                                    <button
+                                        onClick={() => {
+                                            signOut()
+                                            dispatch(emptyCart())
+                                        }}>
+                                        Sign Out
+                                    </button>
+                                </li> :
+                                null}
                         </ul>
                     </div>
                     <div className="ml-10">
-                        {session ? <div className='flex items-center '> 
-                            <FontAwesomeIcon icon={faCartShopping} className='text-[24px] mr-3' /> 
-                            <p className='font-bold text-white border rounded-full h-10 w-10 bg-primary-blue '>{cart.length}</p> 
+                        {session ? <div>
+                            <a className='flex items-center ' href="/cart">
+                                <FontAwesomeIcon icon={faCartShopping} className='text-[24px] mr-3 ' />
+                                <p className='font-bold text-white border rounded-full h-10 w-10 bg-primary-blue flex items-center justify-center'>{cart.length}</p>
+                            </a>
                         </div>
-                        : <button onClick={() => {
-                            signIn()
-                        }} className='rounded-full p-3 bg-primary-blue text-white shadow'>Sign in / up</button>}
+                            : <button onClick={() => {
+                                signIn()
+                            }} className='rounded-full p-3 bg-primary-blue text-white shadow'>Sign in / up</button>}
                     </div>
                 </div>
             </nav>
