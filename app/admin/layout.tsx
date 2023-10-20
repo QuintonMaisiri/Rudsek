@@ -1,4 +1,5 @@
 import Navbar from '../components/admin/navbar/navbar';
+import { getServerSession } from "next-auth/next"
 import type { Metadata } from 'next';
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'

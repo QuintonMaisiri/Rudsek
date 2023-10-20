@@ -1,7 +1,6 @@
 'use client'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Searchbar from "../../components/searchbar/Searchbar";
 import { faCartShopping, faStar } from "@fortawesome/free-solid-svg-icons";
 import PhoneCard from "../../components/phonecard/Phonecard";
 import Image from "next/image";
@@ -14,11 +13,17 @@ import { addComment, getAllPhones, getComments, getPhone } from "@/app/dbengine"
 import { DocumentData } from "firebase/firestore";
 import Rating from "@/app/components/rating/rating";
 import ImageSlider from "@/app/components/image_slider/image_slider";
+import { useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { timeElapsed } from "@/app/helper_functions";
 
 
 export default function Phone({ params }: { params: { id: string } }) {
+    const { data: session } = useSession()
+    const user = session?.user?.email
 
     const dispatch = useDispatch();
+
     let [phone, setPhone] = useState<DocumentData>({
         name: 'nothing',
         brand: 'nothing',
@@ -41,7 +46,7 @@ export default function Phone({ params }: { params: { id: string } }) {
     let [comments, setComments] = useState([{}])
 
     const id = params.id
-    const userID = "myuserid"
+
 
     useEffect(() => {
         (async () => {
@@ -61,14 +66,13 @@ export default function Phone({ params }: { params: { id: string } }) {
     return (
         <div>
             <Navbar />
-            <div className="w-11/12 lg:w-5/6 m-auto ">
-                <Searchbar />
+            <div className="w-11/12 lg:w-5/6 m-auto mt-20">
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div>
                         <ImageSlider />
                         <div className="flex items-center w-1/3 mt-5">
                             <FontAwesomeIcon icon={faStar} className="text-yellow-300 text-lg" />
-                            <p className="ml-3 text-lg font-bold text-yellow-400">{phone.rating}</p>
+                            <p className="ml-3 text-sm">{phone.rating ? phone.rating : 'not rated yet'}</p>
                         </div>
 
                     </div>
@@ -143,11 +147,16 @@ export default function Phone({ params }: { params: { id: string } }) {
                         </div>
                         <div>
                             <div>
-                                <Rating props={{ userID: userID, phoneID: id }} />
+                                <Rating props={{ phoneID: id }} />
                             </div>
                             <button
                                 onClick={() => {
-                                    dispatch(addToCart(phone as any))
+                                    if (session) {
+                                        dispatch(addToCart(phone as any))
+                                    } else {
+                                        window.alert('Sign in or register first')
+                                        signIn()
+                                    }
                                 }}
                                 className="text-white bg-primary-blue w-full p-3" type="button"> <FontAwesomeIcon icon={faCartShopping} /> Add to cart</button>
                         </div>
@@ -168,8 +177,13 @@ export default function Phone({ params }: { params: { id: string } }) {
                         <button
                             disabled={!comment}
                             onClick={() => {
-                                addComment(id)
-                                setComment("")
+                                if (session) {
+                                    addComment(id, user!, comment!)
+                                    setComment("")
+                                }
+                                else {
+                                    signIn()
+                                }
                             }}
                             className="text-white bg-primary-blue my-5 p-3 "
                             type="button">Add comment</button>
@@ -179,7 +193,7 @@ export default function Phone({ params }: { params: { id: string } }) {
                             onClick={
                                 () => { setShowComments(!showComments) }
                             }
-                            className="text-sm text-primary-blue text-end mt-5 cursor-pointer">{showComments ? "Close comments" : "View Comments"}</p>
+                            className="text-sm text-primary-blue mt-5 cursor-pointer">{showComments ? "Close comments" : "View Comments"}</p>
                     </div>
                     {showComments
                         ?
@@ -190,7 +204,7 @@ export default function Phone({ params }: { params: { id: string } }) {
                                         <p className="text-base">{comment.comment}</p>
                                         <div className="flex justify-between mt-5">
                                             <p className="text-xs md:text-sm text-gray-400">{comment.user == undefined ? "no comments" : <span className="rounded-full border bg-primary-blue text-white border-primary-blue py-1 px-3 ">{` ${comment.user}`}</span>}</p>
-                                            <p className="text-xs md:text-sm text-primary-blue text-right">{comment.date}</p>
+                                            <p className="text-xs md:text-sm text-primary-blue text-right">{timeElapsed(Date.now() - comment.date)}</p>
                                         </div>
                                     </div>
                                 })

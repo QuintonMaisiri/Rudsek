@@ -1,3 +1,5 @@
+'use client'
+
 import { getOrder } from "@/app/dbengine";
 import { useEffect, useState } from "react";
 
@@ -16,7 +18,6 @@ export default function Page({ params }: { params: { id: string } }) {
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
             <div>
-                <h1 className="text-xl font-bold ">{params.id.toUpperCase()}</h1>
                 <p>View invoice</p>
             </div>
             <div className="rounded p-5 border mt-10 shadow-sm">

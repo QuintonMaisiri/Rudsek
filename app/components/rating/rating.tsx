@@ -3,21 +3,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { addRating, hasAddedRating } from "@/app/dbengine";
+import { useSession,signIn } from "next-auth/react";
 
-export default function Rating({props} : {props : {userID : string, phoneID : string}}) {
+export default function Rating({props} : {props : {phoneID : string}}) {
     let [starsSelected, setStarsSelected] = useState(0)
     let [addedRating, setAddedRating] = useState(false)
+    let [user,setUser] = useState('')
+
+    const {data : session} = useSession()
+   
 
     useEffect(() => {
         (async () => {
             try {
-                const res : any = await hasAddedRating(props.userID, props.phoneID)
+                setUser(session?.user?.email!)
+                const res : any = await hasAddedRating(user || '', props.phoneID)
                 setAddedRating(res)
             } catch (e) {
                 console.log(e);
             }
         })();
-    }, []);
+    }, [session]);
 
     return <div className={addedRating ? 'hidden' : 'flex items-center mb-5 mt-5'}>
         <div className="grid grid-cols-5 w-1/3">
@@ -49,8 +55,14 @@ export default function Rating({props} : {props : {userID : string, phoneID : st
         </div>
         <p
             onClick={() => {
-                addRating(props.phoneID, props.userID,starsSelected)
-                setAddedRating(true)
+                if (session) {
+                    addRating(props.phoneID, user!,starsSelected)
+                    setAddedRating(true)
+                }
+                else {
+                    signIn()
+                }
+                
             }}
             className="text-yellow-300 ml-5 cursor-pointer" >Add Stars</p>
     </div >

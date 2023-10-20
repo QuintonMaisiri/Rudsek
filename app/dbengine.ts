@@ -70,7 +70,7 @@ async function getPhonesByQuery(word: string) {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         phones.push({ id: doc.id, data: doc.data() })
-    }); console.log(phones)
+    });
     return phones
 }
 
@@ -92,10 +92,10 @@ async function deletePhone(phoneId: any) {
 
 }
 
-async function addComment(phoneID: string) {
+async function addComment(phoneID: string, user: string, comment: string) {
     const phoneRef = doc(db, "phones", phoneID);
     await updateDoc(phoneRef, {
-        comments: arrayUnion({ user: "name", comment: "comment", date: Date.now() })
+        comments: arrayUnion({ user: user, comment: comment, date: Date.now() })
     });
 
 
@@ -123,10 +123,10 @@ async function addRating(phoneID: string, userID: string, userRating: number) {
 
     querySnapshot.forEach((doc) => {
         const data = doc.data()
-        totalRating += data.rating
+        totalRating += data.rating as number
         numberOfRatings++;
     });
-    let newRating: number = (totalRating / numberOfRatings)
+    let newRating: number = (totalRating / numberOfRatings) 
     newRating = Math.ceil(newRating)
 
     const phoneRef = doc(db, "phones", phoneID);
@@ -195,18 +195,20 @@ async function createNewUser(user : NewUser,userID : string){
         name: user.name,
         address: user.address,
         phoneNumber: user.phoneNumber,
-        role: 'user',
+        role: 'admin',
         userID: userID
     })
     return {messsage: 'done'}
 }
-async function getUser(userID : string){
+async function getUser(userID : string) : Promise <any>{
     const q = query(collection(db,'users'),where('userID',"==",userID))
     const querySnapshot = await getDocs(q);
+    let foundUser : any
     querySnapshot.forEach((doc) => {
         const data = doc.data()
-        return data
+        foundUser = data
     })
+    return foundUser
 }
 
 

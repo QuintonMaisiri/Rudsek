@@ -30,7 +30,12 @@ export default function Admin() {
         return <>Loading app...</>;
       }
 
-      console.log(session!)
+
+    if (authorized){
+        if (session!.user!.role === 'user'){
+            return <>Not Authorized to view this section</>
+        }
+    }
 
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
