@@ -16,6 +16,18 @@ export default function Admin() {
     const loading = sessionStatus === 'loading';
 
     useEffect(() => {
+        (async () => {
+            try {
+                const res = await getAllPhones()
+                setPhones(res)
+            } catch (e) {
+                console.log(e);
+            }
+        })();
+    }, []);
+
+
+    useEffect(() => {
         // check if the session is loading or the router is not ready
         if (loading) return;
 
@@ -27,16 +39,6 @@ export default function Admin() {
         }
     }, [loading, unAuthorized, sessionStatus]);
 
-    if (loading) {
-        return <>Loading app...</>;
-      }
-
-
-    if (authorized){
-        if (session!.user!.role === 'user'){
-            return <>Not Authorized to view this section</>
-        }
-    }
 
     let [phones, setPhones] = useState([{ id: 0, data: { 
         name: 'nothing',
@@ -54,17 +56,16 @@ export default function Admin() {
         memory: 'nothing'
     } }]);
 
+    if (loading) {
+        return <>Loading app...</>;
+      }
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const res = await getAllPhones()
-                setPhones(res)
-            } catch (e) {
-                console.log(e);
-            }
-        })();
-    }, []);
+
+    if (authorized){
+        if (session!.user!.role === 'user'){
+            return <>Not Authorized to view this section</>
+        }
+    }
 
     const tableHeadings = [
         'Name', 'Size', 'Memory', 'Network', 'Back Camera', 'Front Camera', 'Sim Card', 'Android', 'Battery', 'FingerPrint'

@@ -1,6 +1,6 @@
 'use client'
 
-import { getOrder } from "@/app/dbengine";
+import { getOrders } from "@/app/dbengine";
 import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 
@@ -12,6 +12,18 @@ export default function Page({ params }: { params: { id: string } }) {
     const authorized = sessionStatus === 'authenticated';
     const unAuthorized = sessionStatus === 'unauthenticated';
     const loading = sessionStatus === 'loading';
+    let [orders, setOrders] = useState<any>()
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const res: any = await getOrders()
+                setOrders(res)
+            } catch (e) {
+                console.log(e);
+            }
+        })();
+    }, []);
 
     useEffect(() => {
         // check if the session is loading or the router is not ready
@@ -35,18 +47,6 @@ export default function Page({ params }: { params: { id: string } }) {
             return <>Not Authorized to view this section</>
         }
     }
-
-    let [orders, setOrders] = useState<any>()
-    useEffect(() => {
-        (async () => {
-            try {
-                const res: any = await getOrder
-                setOrders(res)
-            } catch (e) {
-                console.log(e);
-            }
-        })();
-    }, []);
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
             <div>
@@ -75,7 +75,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                         {
                                             orders.map((order: any) => {
                                                 return <tr>
-                                                    <td className="p-2 whitespace-nowrap">
+                                                    <td key={order.id} className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center">
                                                             <div className="font-medium text-gray-800">order.data.Date</div>
                                                         </div>

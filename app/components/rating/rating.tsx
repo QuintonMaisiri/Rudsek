@@ -23,7 +23,7 @@ export default function Rating({props} : {props : {phoneID : string}}) {
                 console.log(e);
             }
         })();
-    }, [session]);
+    }, [session, props.phoneID, user]);
 
     return <div className={addedRating ? 'hidden' : 'flex items-center mb-5 mt-5'}>
         <div className="grid grid-cols-5 w-1/3">

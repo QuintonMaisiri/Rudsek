@@ -27,16 +27,17 @@ export default function NewPhone() {
         }
     }, [loading, unAuthorized, sessionStatus]);
 
-    if (loading) {
-        return <>Loading app...</>;
-      }
 
-
-    if (authorized){
-        if (session!.user!.role === 'user'){
-            return <>Not Authorized to view this section</>
-        }
-    }
+    useEffect(() => {
+        (async () => {
+            try {
+                const res : any = await getBrands()
+                setBrandOptions(res)
+            } catch (e) {
+                console.log(e);
+            }
+        })();
+    }, []);
 
     let [brandOptions, setBrandOptions] =useState([]);
     let [name, setName] = useState<string >();
@@ -53,18 +54,17 @@ export default function NewPhone() {
     let [price, setPrice] = useState<string>();
     let [memory,setMemory] = useState<string>();
     let [image, setImage] = useState<any>();
+    
+    if (loading) {
+        return <>Loading app...</>;
+      }
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const res : any = await getBrands()
-                setBrandOptions(res)
-            } catch (e) {
-                console.log(e);
-            }
-        })();
-    }, []);
 
+    if (authorized){
+        if (session!.user!.role === 'user'){
+            return <>Not Authorized to view this section</>
+        }
+    }
     const networkOptions = ['3G', '4G', '5G'];
     const simCardOptions = ['Single', 'Dual'];
     const androidOptions = [

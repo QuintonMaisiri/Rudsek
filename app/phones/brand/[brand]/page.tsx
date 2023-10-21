@@ -19,7 +19,7 @@ export default function Page({ params }: { params: { brand: String } }) {
                 console.log(e);
             }
         })();
-    }, []);
+    }, [params.brand, phones]);
 
 
     return (

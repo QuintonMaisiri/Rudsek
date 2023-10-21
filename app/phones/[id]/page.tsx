@@ -61,7 +61,7 @@ export default function Phone({ params }: { params: { id: string } }) {
                 console.log(e);
             }
         })();
-    }, []);
+    }, [id]);
 
     return (
         <div>

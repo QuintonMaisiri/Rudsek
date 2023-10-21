@@ -15,6 +15,19 @@ export default function Page({ params }: { params: { id: string } }) {
     const unAuthorized = sessionStatus === 'unauthenticated';
     const loading = sessionStatus === 'loading';
 
+    let [order, setOrder] = useState<any>()
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const res: any = await getOrder(id)
+                setOrder(res)
+            } catch (e) {
+                console.log(e);
+            }
+        })();
+    }, [id]);
+
     useEffect(() => {
         // check if the session is loading or the router is not ready
         if (loading) return;
@@ -37,18 +50,6 @@ export default function Page({ params }: { params: { id: string } }) {
             return <>Not Authorized to view this section</>
         }
     }
-
-    let [order, setOrder] = useState<any>()
-    useEffect(() => {
-        (async () => {
-            try {
-                const res: any = await getOrder(id)
-                setOrder(res)
-            } catch (e) {
-                console.log(e);
-            }
-        })();
-    }, []);
 
     return (
         <div>
