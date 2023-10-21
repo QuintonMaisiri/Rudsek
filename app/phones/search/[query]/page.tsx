@@ -17,7 +17,7 @@ export default function Phone({params} : {params  : {query : string}}) {
                 console.log(e);
             }
         })();
-    }, []);
+    }, [params.query]);
 
 
     return (

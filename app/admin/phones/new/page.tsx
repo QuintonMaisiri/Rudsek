@@ -4,8 +4,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState, useEffect } from "react";
 import {addNewPhone, getBrands} from '@/app/dbengine'
 // import fs from 'fs'
+import { useSession, signIn } from "next-auth/react";
 
 export default function NewPhone() {
+
+    const { data: session } = useSession();
+
+    const { status: sessionStatus } = useSession();
+    const authorized = sessionStatus === 'authenticated';
+    const unAuthorized = sessionStatus === 'unauthenticated';
+    const loading = sessionStatus === 'loading';
+
+    useEffect(() => {
+        // check if the session is loading or the router is not ready
+        if (loading) return;
+
+        // if the user is not authorized, redirect to the login page
+        // with a return url to the current page
+        if (unAuthorized) {
+            console.log('not authorized');
+            signIn()
+        }
+    }, [loading, unAuthorized, sessionStatus]);
+
+    if (loading) {
+        return <>Loading app...</>;
+      }
+
+
+    if (authorized){
+        if (session!.user!.role === 'user'){
+            return <>Not Authorized to view this section</>
+        }
+    }
+
     let [brandOptions, setBrandOptions] =useState([]);
     let [name, setName] = useState<string >();
     let [brand, setBrand] = useState<string>();

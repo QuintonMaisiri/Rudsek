@@ -1,10 +1,42 @@
 'use client'
 import Navbar from "@/app/components/admin/navbar/navbar";
 import { getOrder } from "@/app/dbengine";
+import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function Page({ params }: { params: { id: string } }) {
     const id = params.id
+
+    const { data: session } = useSession();
+
+    const { status: sessionStatus } = useSession();
+    const authorized = sessionStatus === 'authenticated';
+    const unAuthorized = sessionStatus === 'unauthenticated';
+    const loading = sessionStatus === 'loading';
+
+    useEffect(() => {
+        // check if the session is loading or the router is not ready
+        if (loading) return;
+
+        // if the user is not authorized, redirect to the login page
+        // with a return url to the current page
+        if (unAuthorized) {
+            console.log('not authorized');
+            signIn()
+        }
+    }, [loading, unAuthorized, sessionStatus]);
+
+    if (loading) {
+        return <>Loading app...</>;
+      }
+
+
+    if (authorized){
+        if (session!.user!.role === 'user'){
+            return <>Not Authorized to view this section</>
+        }
+    }
 
     let [order, setOrder] = useState<any>()
     useEffect(() => {
