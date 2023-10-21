@@ -39,11 +39,11 @@ export default function Page({ params }: { params: { id: string } }) {
 
     if (loading) {
         return <>Loading app...</>;
-      }
+    }
 
 
-    if (authorized){
-        if (session!.user!.role === 'user'){
+    if (authorized) {
+        if (session!.user!.role === 'user') {
             return <>Not Authorized to view this section</>
         }
     }
@@ -74,26 +74,28 @@ export default function Page({ params }: { params: { id: string } }) {
                                     <tbody className="text-sm divide-y divide-gray-100">
                                         {
                                             orders.map((order: any) => {
-                                                return <tr key={order.id}>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="font-medium text-gray-800">order.data.Date</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">order.data.userID</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-green-500">order.data.Status</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">
-                                                            <a href={`admin/orders/${order.id}`}>
-                                                                View
-                                                            </a>
+                                                return (
+                                                    <tr key={order.data.userID}>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="font-medium text-gray-800">order.data.Date</div>
                                                             </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="text-left">order.data.userID</div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="text-left font-medium text-green-500">order.data.Status</div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="text-lg text-center">
+                                                                <a href={`admin/orders/${order.id}`}>
+                                                                    View
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )
                                             })
                                         }
                                     </tbody>
