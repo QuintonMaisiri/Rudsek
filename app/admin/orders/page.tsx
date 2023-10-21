@@ -74,8 +74,8 @@ export default function Page({ params }: { params: { id: string } }) {
                                     <tbody className="text-sm divide-y divide-gray-100">
                                         {
                                             orders.map((order: any) => {
-                                                return <tr>
-                                                    <td key={order.id} className="p-2 whitespace-nowrap">
+                                                return <tr key={order.id}>
+                                                    <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center">
                                                             <div className="font-medium text-gray-800">order.data.Date</div>
                                                         </div>
