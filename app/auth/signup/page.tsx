@@ -7,6 +7,9 @@ import { NewUser } from '@/app/components/interfaces/new_user'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { createNewUser } from "@/app/dbengine";
 import { signIn } from "next-auth/react";
+import * as LR from "@uploadcare/blocks";
+LR.registerBlocks(LR);
+
 
 export default function Page() {
 
@@ -40,15 +43,15 @@ export default function Page() {
             const auth = getAuth();
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    const createdUser : any = userCredential.user;
-                    createNewUser(user,createdUser.uid)
+                    const createdUser: any = userCredential.user;
+                    createNewUser(user, createdUser.uid)
                     signIn('credentials', { email, password, redirect: true, callbackUrl: '/' })
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                 });
-           
+
         } else {
             setPasswordsDoNotMatch(true)
             setConfirmPasssword('')

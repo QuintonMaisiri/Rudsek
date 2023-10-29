@@ -1,10 +1,14 @@
 'use client';
 import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useState, useEffect } from "react";
-import {addNewPhone, getBrands} from '@/app/dbengine'
+import { useState, useEffect, useRef } from "react";
+import { addNewPhone, getBrands } from '@/app/dbengine'
 // import fs from 'fs'
 import { useSession, signIn } from "next-auth/react";
+
+import * as LR from "@uploadcare/blocks";
+LR.registerBlocks(LR);
+
 
 export default function NewPhone() {
 
@@ -14,6 +18,9 @@ export default function NewPhone() {
     const authorized = sessionStatus === 'authenticated';
     const unAuthorized = sessionStatus === 'unauthenticated';
     const loading = sessionStatus === 'loading';
+
+    const dataOutputRef = useRef<JSX.IntrinsicElements["lr-data-output"]>();
+    const configRef = useRef<JSX.IntrinsicElements["lr-config"]>();
 
     useEffect(() => {
         // check if the session is loading or the router is not ready
@@ -31,7 +38,7 @@ export default function NewPhone() {
     useEffect(() => {
         (async () => {
             try {
-                const res : any = await getBrands()
+                const res: any = await getBrands()
                 setBrandOptions(res)
             } catch (e) {
                 console.log(e);
@@ -39,8 +46,8 @@ export default function NewPhone() {
         })();
     }, []);
 
-    let [brandOptions, setBrandOptions] =useState([]);
-    let [name, setName] = useState<string >();
+    let [brandOptions, setBrandOptions] = useState([]);
+    let [name, setName] = useState<string>();
     let [brand, setBrand] = useState<string>();
     let [size, setSize] = useState<string>();
     let [network, setNetwork] = useState<string>();
@@ -52,16 +59,17 @@ export default function NewPhone() {
     let [description, setDescription] = useState<string>();
     let [simCard, setSimcard] = useState<string>();
     let [price, setPrice] = useState<string>();
-    let [memory,setMemory] = useState<string>();
-    let [image, setImage] = useState<any>();
-    
+    let [memory, setMemory] = useState<string>();
+    let [images, setImages] = useState<any>();
+
+
     if (loading) {
         return <>Loading app...</>;
-      }
+    }
 
 
-    if (authorized){
-        if (session!.user!.role === 'user'){
+    if (authorized) {
+        if (session!.user!.role === 'user') {
             return <>Not Authorized to view this section</>
         }
     }
@@ -81,30 +89,41 @@ export default function NewPhone() {
         'Android 14',
         'Android 15',
     ]
-    const fingerPrintOptions =[
+    const fingerPrintOptions = [
         'yes',
         'no'
     ]
 
-    function resetFields(){
-         setName('')
-         setBrand('0')
-         setSize('')
-         setNetwork('')
-         setBattery('')
-         setFrontCamera('')
+    function resetFields() {
+        setName('')
+        setBrand('0')
+        setSize('')
+        setNetwork('')
+        setBattery('')
+        setFrontCamera('')
         setBackCamera('')
         setFingerPrint('')
-         setAndroid('')
-         setDescription('')
-         setSimcard('')
+        setAndroid('')
+        setDescription('')
+        setSimcard('')
         setPrice('')
-        setImage('')
+        setImages('')
     }
 
-    
+
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
+
+            <lr-config
+                ref={configRef}
+                ctx-name="my-uploader"
+                pubkey="621e44bf4300bac01221"
+                maxLocalFileSizeBytes={2000000}
+                multipleMax={3}
+                imgOnly={true}
+                sourceList="local, camera"
+                useCloudImageEditor={false}
+            ></lr-config>
             <div>
                 <h1 className="text-xl font-bold ">Add Phone</h1>
                 <p>create new phone</p>
@@ -115,119 +134,119 @@ export default function NewPhone() {
                     <div>
                         <h2 className="mb-2">Phone Name</h2>
                         <input
-                        value={name}
+                            value={name}
                             onChange={(e) => setName(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Brand</h2>
                         <select
-                        value={brand}
+                            value={brand}
                             onChange={(e) => setBrand(e.target.value)}
                             className="p-2 border rounded w-full" defaultValue={0}>
-                                <option value="0">Select Brand</option>
-                                {brandOptions.map(
-                                    (brand : any)=>{
-                                        return <option key={brand.data.name} value={brand.data.name}>{brand.data.name}</option>
-                                    }
-                                )}
-                            </select>
+                            <option value="0">Select Brand</option>
+                            {brandOptions.map(
+                                (brand: any) => {
+                                    return <option key={brand.data.name} value={brand.data.name}>{brand.data.name}</option>
+                                }
+                            )}
+                        </select>
                     </div>
                     <div>
                         <h2 className="mb-2">Size</h2>
                         <input
-                        value={size}
+                            value={size}
                             onChange={(e) => setSize(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Network</h2>
                         <select
-                        value={network}
+                            value={network}
                             onChange={(e) => setNetwork(e.target.value)}
                             className="p-2 border rounded w-full" defaultValue={0}>
-                                <option value={0}>Select Network</option>
-                                {networkOptions.map(
-                                    (network)=>{
-                                        return <option key={network} value={network}>{network}</option>
-                                    }
-                                )}
-                            </select>
+                            <option value={0}>Select Network</option>
+                            {networkOptions.map(
+                                (network) => {
+                                    return <option key={network} value={network}>{network}</option>
+                                }
+                            )}
+                        </select>
                     </div>
                     <div>
                         <h2 className="mb-2">Battery</h2>
                         <input
-                        value={battery}
+                            value={battery}
                             onChange={(e) => setBattery(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Front Camera</h2>
                         <input
-                        value={frontCamera}
+                            value={frontCamera}
                             onChange={(e) => setFrontCamera(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Back Camera</h2>
                         <input
-                        value={backCamera}
+                            value={backCamera}
                             onChange={(e) => setBackCamera(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Android</h2>
                         <select
-                        value={android}
+                            value={android}
                             onChange={(e) => setAndroid(e.target.value)}
                             className="p-2 border rounded w-full " defaultValue={0}>
-                                <option value={0}>Select android version</option>
-                                {androidOptions.map(
-                                    (android)=>{
-                                        return <option key={android} value={android}> {android}</option>
-                                    }
-                                )}
-                            </select>
+                            <option value={0}>Select android version</option>
+                            {androidOptions.map(
+                                (android) => {
+                                    return <option key={android} value={android}> {android}</option>
+                                }
+                            )}
+                        </select>
                     </div>
                     <div>
                         <h2 className="mb-2">Sim Card</h2>
                         <select
-                        value={simCard}
+                            value={simCard}
                             onChange={(e) => setSimcard(e.target.value)}
                             className="p-2 border rounded w-full" defaultValue={0}>
-                                <option value={0}>Select</option>
-                                {simCardOptions.map(
-                                    (option)=>{
-                                        return <option key={option} value={option}>{option}</option>
-                                    }
-                                )}
-                            </select>
+                            <option value={0}>Select</option>
+                            {simCardOptions.map(
+                                (option) => {
+                                    return <option key={option} value={option}>{option}</option>
+                                }
+                            )}
+                        </select>
                     </div>
                     <div>
                         <h2 className="mb-2">Finger Print</h2>
                         <select
-                        value={fingerPrint}
+                            value={fingerPrint}
                             onChange={(e) => setFingerPrint(e.target.value)}
                             className="p-2 border rounded w-full" defaultValue={0}>
-                                <option value={0}>Select</option>
-                                {fingerPrintOptions.map(
-                                    (option)=>{
-                                        return <option key={option} value={option}>{option}</option>
-                                    }
-                                )}
-                            </select>
+                            <option value={0}>Select</option>
+                            {fingerPrintOptions.map(
+                                (option) => {
+                                    return <option key={option} value={option}>{option}</option>
+                                }
+                            )}
+                        </select>
                     </div>
                     <div>
                         <h2 className="mb-2">Price</h2>
                         <input
-                        value={price}
+                            value={price}
                             onChange={(e) => setPrice(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
                     <div>
                         <h2 className="mb-2">Memory</h2>
                         <input
-                        value={memory}
+                            value={memory}
                             onChange={(e) => setMemory(e.target.value)}
                             type="text" className="p-2 border rounded w-full" />
                     </div>
@@ -240,22 +259,31 @@ export default function NewPhone() {
                     <div className=" md:col-span-2 lg:col-span-3 xl:col-span-4">
                         <h2 className="mb-2">Phone Image</h2>
                         <div className="p-2 border rounded w-full h-40 border border-primary-blue hover:bg-primary-blue flex items-center justify-center text-primary-blue hover:text-white" >
-                            <FontAwesomeIcon icon={faCloudArrowUp} className="text-4xl mr-3" />
-                            <input type="file" id="img" name="img" accept="image/*" value={image} onChange={(e)=>{
-                                if (e.target.files){
-                                    const file = e.target.files[0]
-                                    setImage(file)
-                                    console.log()
-                                }
-                                
-                            }}/>
+                            <lr-file-uploader-regular
+                                css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-regular.min.css"
+                                ctx-name="my-uploader"
+                                class="my-config"
+                            >
+                            </lr-file-uploader-regular>
+
+                            <lr-data-output
+                                ctx-name="my-uploader"
+                                use-event
+                                hidden
+                                onEvent={(e)=>{
+                                    const data = e.detail
+                                    console.log(data)
+                                    setImages(data)
+                                }}
+                            ></lr-data-output>
                         </div>
                     </div>
                 </div>
                 <button
                     type="button"
-                    disabled ={!name || !brand || !size || !network || !battery || !frontCamera || !backCamera || ! fingerPrint || !android || ! description || ! simCard || !price}  
-                    onClick={() => {addNewPhone( name !, brand !, size !, network !, battery !, frontCamera !, backCamera !, fingerPrint !, android !,description !, simCard !,price !,memory !,image !);
+                    disabled={!name || !brand || !size || !network || !battery || !frontCamera || !backCamera || !fingerPrint || !android || !description || !simCard || !price}
+                    onClick={() => {
+                        addNewPhone(name!, brand!, size!, network!, battery!, frontCamera!, backCamera!, fingerPrint!, android!, description!, simCard!, price!, memory!, images!);
                         resetFields();
                         window.alert("Phone added successfully");
                     }}

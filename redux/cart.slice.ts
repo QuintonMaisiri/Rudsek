@@ -5,7 +5,7 @@ const cartSlice = createSlice({
   initialState: { data: [] },
   reducers: {
     addToCart: (state : any, action : any) => {
-      const itemExists: any = state.data.find((item: any) => item.id === action.payload.id)
+      const itemExists: any = state.data.find((item: any) => item.name === action.payload.name)
       if (itemExists) {
         itemExists.quantity++;
       } else {
@@ -13,21 +13,21 @@ const cartSlice = createSlice({
       }
     },
     incrementQuantity: (state, action) => {
-      const item: any = state.data.find((item: any) => item.id === action.payload.id)
+      const item: any = state.data.find((item: any) => item.name === action.payload.name)
       item.quantity++;
     },
     decrementQuantity: (state, action) => {
-      const item: any = state.data.find((item: any) => item.id === action.payload.id)
+      const item: any = state.data.find((item: any) => item.name === action.payload.name)
       console.log(action.payload)
       if (item.quantity === 1) {
-        const index = state.data.findIndex((item: any) => item.id === action.payload.id);
+        const index = state.data.findIndex((item: any) => item.name === action.payload.name);
         state.data.splice(index, 1);
       } else {
         item.quantity--;
       }
     },
     removeFromCart: (state, action) => {
-      const index = state.data.findIndex((item: any) => item.id === action.payload.id);
+      const index = state.data.findIndex((item: any) => item.name === action.payload.name);
       state.data.splice(index, 1);
     },
     emptyCart: (state)=>{

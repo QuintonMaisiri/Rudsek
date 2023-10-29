@@ -1,6 +1,6 @@
 'use client'
-import Navbar from "@/app/components/admin/navbar/navbar";
-import { getOrder } from "@/app/dbengine";
+
+import { getOrder, getUserByEmail } from "@/app/dbengine";
 import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -15,109 +15,119 @@ export default function Page({ params }: { params: { id: string } }) {
     const unAuthorized = sessionStatus === 'unauthenticated';
     const loading = sessionStatus === 'loading';
 
-    let [order, setOrder] = useState<any>()
+    let [order, setOrder] = useState<any>({ cart: [] })
+    let [user, setUser] = useState<any>({})
 
     useEffect(() => {
         (async () => {
             try {
                 const res: any = await getOrder(id)
                 setOrder(res)
+                if (order.userID) {
+                    let resUser: any = await getUserByEmail(order.userID)
+                    setUser(resUser)
+                }
             } catch (e) {
                 console.log(e);
             }
         })();
-    }, [id]);
+    }, [id, order]);
 
     useEffect(() => {
-        // check if the session is loading or the router is not ready
         if (loading) return;
 
-        // if the user is not authorized, redirect to the login page
-        // with a return url to the current page
         if (unAuthorized) {
             console.log('not authorized');
             signIn()
         }
+
     }, [loading, unAuthorized, sessionStatus]);
 
     if (loading) {
         return <>Loading app...</>;
-      }
+    }
 
 
-    if (authorized){
-        if (session!.user!.role === 'user'){
+    if (authorized) {
+        if (session!.user!.role === 'user') {
             return <>Not Authorized to view this section</>
         }
     }
 
     return (
-        <div>
-            <Navbar />
-            <div>
-                <div>
-                    <p>UserId: Some sort of id</p>
+        <div className="w-11/12 md:w-5/6 mx-[auto]  ">
+            <div className="mt-20">
+                <div className="flex justify-between items-center mb-5">
+                    <p className="text-primary-blue">Name</p>
+                    <p >{user.name}</p>
                 </div>
-                <div>
-                    <div>
-                        <p>Name:</p>
-                        <p>Quinton Maisiri</p>
-                    </div>
-                    <div>Date Created:</div>
-                    <p>Date</p>
+                <div className="flex justify-between items-center mb-5">
+                    <p className="text-primary-blue">Email</p>
+                    <p >{user.email}</p>
                 </div>
-                <div>
-                    <table>
-                        <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                            <tr>
-                                <th className="p-2 whitespace-nowrap">
-                                    <div className="font-semibold text-left">Name</div>
-                                </th>
-                                <th className="p-2 whitespace-nowrap">
-                                    <div className="font-semibold text-left">Qty</div>
-                                </th>
-                                <th className="p-2 whitespace-nowrap">
-                                    <div className="font-semibold text-left">Price</div>
-                                </th>
-                                <th className="p-2 whitespace-nowrap">
-                                    <div className="font-semibold text-left">Total</div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-sm divide-y divide-gray-100">
-                            <tr>
-                                <td className="p-2 whitespace-nowrap">
-                                    <div className="flex items-center">
-                                        <div className="font-medium text-gray-800">order.data.Date</div>
-                                    </div>
-                                </td>
-                                <td className="p-2 whitespace-nowrap">
-                                    <div className="text-left">order.data.userID</div>
-                                </td>
-                                <td className="p-2 whitespace-nowrap">
-                                    <div className="text-left font-medium text-green-500">order.data.Status</div>
-                                </td>
-                                <td className="p-2 whitespace-nowrap">
-                                    <div className="text-lg text-center">
-                                        <a href={`admin/orders/${order.id}`}>
-                                            View
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
+                <div className="flex justify-between items-center mb-5">
+                    <p className="text-primary-blue">Phone Number</p>
+                    <p >{user.phoneNumber}</p>
                 </div>
-                <div>
-                    <button
-                    className="bg-primary-blue px-5 py-3 text-primary font-bold"
-                    >
-                        Mark As Delivered
-                    </button>
+                <div className="flex justify-between items-center mb-5">
+                    <p className="text-primary-blue">Date Created:</p>
+                    <p >{new Date(order.date).toUTCString()}</p>
                 </div>
             </div>
+            <div>
+                <table className="w-full mb-10">
+                    <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                        <tr>
+                            <th className="p-2 whitespace-nowrap">
+                                <div className="font-semibold text-left">Name</div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                                <div className="font-semibold text-left">Qty</div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                                <div className="font-semibold text-left">Price</div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                                <div className="font-semibold text-left">Total</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-sm divide-y divide-gray-100">
+                        {
+                            order.cart.map((item: any) => {
+                                return (
+                                    <tr key={item.name}>
+                                        <td className="p-2 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <div className="font-medium  text-gray-800">{item.name}</div>
+                                            </div>
+                                        </td>
+                                        <td className="p-2 whitespace-nowrap">
+                                            <div className="text-left font-bold">{item.qty}</div>
+                                        </td>
+                                        <td className="p-2 whitespace-nowrap">
+                                            <div className="text-left font-medium font-bold">{item.price}</div>
+                                        </td>
+                                        <td className="p-2 whitespace-nowrap">
+                                            <div className="text-left font-medium text-green-500 font-bold">{item.price * item.qty}</div>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <button
+                    className="bg-primary-blue px-5 py-3 text-white font-bold"
+                >
+                    Mark As Delivered
+                </button>
+            </div>
         </div>
+
     )
 
 }

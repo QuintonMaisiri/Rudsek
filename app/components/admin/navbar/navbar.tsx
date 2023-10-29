@@ -2,9 +2,14 @@
 
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCartShopping, faShop, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBars,faShop, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {  signOut, useSession } from 'next-auth/react';
+import { useDispatch } from "react-redux";
+import { emptyCart } from '@/redux/cart.slice';
 
 export default function Navbar() {
+    const dispatch = useDispatch()
+    const { data: session } = useSession()
     let [isMenuOpen, setIsMenuOpen] = useState(false)
     return (
         <div className='shadow-sm bg-white w-full p-5 '>
@@ -40,6 +45,17 @@ export default function Navbar() {
                             <li className="mr-10">
                                 <a href='/admin/settings'>Settings</a>
                             </li>
+                            {session ?
+                                <li className="mr-10">
+                                    <button
+                                        onClick={() => {
+                                            signOut()
+                                            dispatch(emptyCart())
+                                        }}>
+                                        Sign Out
+                                    </button>
+                                </li> :
+                                null}
                         </ul>
                     </div>
                 </div>
@@ -68,6 +84,17 @@ export default function Navbar() {
                     <li className="mb-5 text-center">
                         <a href='/admin/settings'>Settings</a>
                     </li>
+                    {session ?
+                        <li className="mr-10">
+                            <button
+                                onClick={() => {
+                                    signOut()
+                                    dispatch(emptyCart())
+                                }}>
+                                Sign Out
+                            </button>
+                        </li> :
+                        null}
                 </ul>
 
             </nav>

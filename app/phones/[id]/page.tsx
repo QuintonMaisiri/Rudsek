@@ -3,7 +3,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faStar } from "@fortawesome/free-solid-svg-icons";
 import PhoneCard from "../../components/phonecard/Phonecard";
-import Image from "next/image";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { addToCart } from '@/redux/cart.slice';

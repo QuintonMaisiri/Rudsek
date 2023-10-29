@@ -41,7 +41,8 @@ export default function Page() {
                                     </div>
                                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline">Forgot password?</a>
                                 </div>
-                                <button type="button" disabled ={!email || !password} onClick={()=>{
+                                <button type="button" disabled ={!email || !password} onClick={(e)=>{
+                                    e.preventDefault()
                                     signIn('credentials', {email, password,callbackUrl: '/'})
                                 }}
                                  className="w-full text-white bg-green-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>

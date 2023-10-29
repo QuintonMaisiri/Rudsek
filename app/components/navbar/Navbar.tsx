@@ -9,7 +9,7 @@ import { emptyCart } from '@/redux/cart.slice';
 
 export default function Navbar() {
     const cart = useSelector((state: any) => state.data);
-    const { data: session, status } = useSession()
+    const { data: session} = useSession()
     let [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const dispatch = useDispatch()
@@ -104,6 +104,17 @@ export default function Navbar() {
                     <li className="mb-5 text-center">
                         <a href='/contact-us'>Contact us</a>
                     </li>
+                    {session ?
+                                <li className="mr-10">
+                                    <button
+                                        onClick={() => {
+                                            signOut()
+                                            dispatch(emptyCart())
+                                        }}>
+                                        Sign Out
+                                    </button>
+                                </li> :
+                                null}
                     <li className="mb-5 text-center">
                         {session ? <FontAwesomeIcon icon={faCartShopping} className='text-[24px]' /> : <button onClick={() => {
                             signIn()

@@ -195,13 +195,23 @@ async function createNewUser(user : NewUser,userID : string){
         name: user.name,
         address: user.address,
         phoneNumber: user.phoneNumber,
-        role: 'admin',
+        role: 'user',
         userID: userID
     })
     return {messsage: 'done'}
 }
 async function getUser(userID : string) : Promise <any>{
     const q = query(collection(db,'users'),where('userID',"==",userID))
+    const querySnapshot = await getDocs(q);
+    let foundUser : any
+    querySnapshot.forEach((doc) => {
+        const data = doc.data()
+        foundUser = data
+    })
+    return foundUser
+}
+async function getUserByEmail(email : string) : Promise <any>{
+    const q = query(collection(db,'users'),where('email',"==",email))
     const querySnapshot = await getDocs(q);
     let foundUser : any
     querySnapshot.forEach((doc) => {
@@ -228,5 +238,6 @@ export {
     getOrders,
     getOrder,
     createNewUser,
-    getUser
+    getUser,
+    getUserByEmail
 }

@@ -8,12 +8,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { emptyCart } from "@/redux/cart.slice";
 import { createOrder } from "../dbengine";
 import { OrderItem } from "@/app/components/interfaces/order_item"
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 
 export default function Cart() {
 
+    const {data : session} = useSession()
+    let userID =  ''
+
+    useEffect(()=>{
+       userID = session!.user!.email!
+    },[session])
+
     let orders : OrderItem[] = []
-    const userID = "someUserID"
+    
 
     const dispatch = useDispatch();
     const cart = useSelector((state: any) => state.data);

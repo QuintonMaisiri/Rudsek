@@ -22,11 +22,12 @@ export default function Home() {
           } catch (e) {
               console.log(e);
           }
-      })();
+      });
   }, []);
 
   return (
     <div>
+
       <Navbar />
       <header className='bg-primary-blue flex justify-evenly px-5 py-10 lg:px-40 relative'>
         <div className='absolute top-0 left-0 w-full h-full bg-[url("/images/pattern2.jpg")] bg-center bg-cover opacity-[0.05] z-10'></div>
