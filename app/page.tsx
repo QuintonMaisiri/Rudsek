@@ -1,4 +1,5 @@
 'use client'
+
 import Image from 'next/image'
 import Searchbar from './components/searchbar/Searchbar'
 import BrandCard from './components/brandcard/Brandcard'
@@ -9,21 +10,25 @@ import { useState,useEffect } from 'react'
 import { getAllPhones, getBrands } from './dbengine'
 
 export default function Home() {
+  
   let [phones, setPhones] = useState([])
   let [brands, setBrands] = useState([])
+  
 
   useEffect(() => {
       (async () => {
           try {
+            console.log('running')
               const resPhones = await getAllPhones()
-              const resBrands = await getBrands()
               setPhones(resPhones)
+              console.log(resPhones)
+              const resBrands = await getBrands()
               setBrands(resBrands)
           } catch (e) {
               console.log(e);
           }
       });
-  }, []);
+  });
 
   return (
     <div>
@@ -44,7 +49,7 @@ export default function Home() {
           </div>
           <div>
             <a href='/phones'>
-              <button className='p-3 bg-white rounded-md text-primary-blue md:text-lg lg:text-xl mb-5 w-[200px] text-sm font-bold shadow-sm md:mt-[50px] relative z-[200]'>
+              <button className='p-3 bg-white rounded-md text-primary-blue md:text-lg lg:text-xl mb-5 w-[200px] text-sm font-bold shadow-sm md:mt-[50px] relative z-[10]'>
                 Start Buying
               </button>
             </a>
@@ -75,7 +80,7 @@ export default function Home() {
         </h2>
         <div className='overflow-x-auto flex'>
           {phones.map((phone : any)=>{
-            return (<PhoneCard key={phone.id} product={phone} />)
+            return <PhoneCard key={phone.id} product={phone} />
           })}
         </div>
       </div>
@@ -87,7 +92,7 @@ export default function Home() {
         </h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
         {brands.map((brand : any)=>{
-            return (<BrandCard key={brand.id} name={brand.data.name} />)
+            return <BrandCard key={brand.id} name={brand.data.name} />
           })}
         </div>
       </div>
@@ -98,7 +103,7 @@ export default function Home() {
         </h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
         {phones.map((phone : any)=>{
-            return (<PhoneCard key={phone.id} product={phone} />)
+            return <PhoneCard key={phone.id} product={phone} />
           })}
         </div>
       </div>

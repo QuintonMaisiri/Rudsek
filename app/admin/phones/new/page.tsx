@@ -1,39 +1,12 @@
 'use client';
-import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { addNewPhone, getBrands } from '@/app/dbengine'
-// import fs from 'fs'
 import { useSession, signIn } from "next-auth/react";
 
 import * as LR from "@uploadcare/blocks";
 LR.registerBlocks(LR);
 
-
 export default function NewPhone() {
-
-    const { data: session } = useSession();
-
-    const { status: sessionStatus } = useSession();
-    const authorized = sessionStatus === 'authenticated';
-    const unAuthorized = sessionStatus === 'unauthenticated';
-    const loading = sessionStatus === 'loading';
-
-    const dataOutputRef = useRef<JSX.IntrinsicElements["lr-data-output"]>();
-    const configRef = useRef<JSX.IntrinsicElements["lr-config"]>();
-
-    useEffect(() => {
-        // check if the session is loading or the router is not ready
-        if (loading) return;
-
-        // if the user is not authorized, redirect to the login page
-        // with a return url to the current page
-        if (unAuthorized) {
-            console.log('not authorized');
-            signIn()
-        }
-    }, [loading, unAuthorized, sessionStatus]);
-
 
     useEffect(() => {
         (async () => {
@@ -60,19 +33,8 @@ export default function NewPhone() {
     let [simCard, setSimcard] = useState<string>();
     let [price, setPrice] = useState<string>();
     let [memory, setMemory] = useState<string>();
-    let [images, setImages] = useState<any>();
+    let [images, setImages] = useState<any>([]);
 
-
-    if (loading) {
-        return <>Loading app...</>;
-    }
-
-
-    if (authorized) {
-        if (session!.user!.role === 'user') {
-            return <>Not Authorized to view this section</>
-        }
-    }
     const networkOptions = ['3G', '4G', '5G'];
     const simCardOptions = ['Single', 'Dual'];
     const androidOptions = [
@@ -94,6 +56,16 @@ export default function NewPhone() {
         'no'
     ]
 
+    // window.addEventListener('LR_DATA_OUTPUT', (e) => {
+    //     let imageUrls : any = []
+    //     const {data} = e.detail
+    //     data.map((image : any)=>{
+    //         imageUrls.push(image.uuid)
+    //     })
+    //     setImages(imageUrls)
+    //     console.log(images)
+    //   });
+
     function resetFields() {
         setName('')
         setBrand('0')
@@ -107,15 +79,14 @@ export default function NewPhone() {
         setDescription('')
         setSimcard('')
         setPrice('')
-        setImages('')
     }
+
 
 
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
 
             <lr-config
-                ref={configRef}
                 ctx-name="my-uploader"
                 pubkey="621e44bf4300bac01221"
                 maxLocalFileSizeBytes={2000000}
@@ -263,18 +234,16 @@ export default function NewPhone() {
                                 css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-regular.min.css"
                                 ctx-name="my-uploader"
                                 class="my-config"
+                                onEvent={(e) => {
+                                    console.log('fired')
+                                }}
                             >
                             </lr-file-uploader-regular>
 
                             <lr-data-output
                                 ctx-name="my-uploader"
                                 use-event
-                                hidden
-                                onEvent={(e)=>{
-                                    const data = e.detail
-                                    console.log(data)
-                                    setImages(data)
-                                }}
+                                use-input
                             ></lr-data-output>
                         </div>
                     </div>
@@ -283,6 +252,12 @@ export default function NewPhone() {
                     type="button"
                     disabled={!name || !brand || !size || !network || !battery || !frontCamera || !backCamera || !fingerPrint || !android || !description || !simCard || !price}
                     onClick={() => {
+
+                        // const dataOutput = document.querySelector('lr-data-output');
+                        // dataOutput!.addEventListener('lr-data-output', (e) => {
+                        //     console.log(e.detail);
+                        // });
+
                         addNewPhone(name!, brand!, size!, network!, battery!, frontCamera!, backCamera!, fingerPrint!, android!, description!, simCard!, price!, memory!, images!);
                         resetFields();
                         window.alert("Phone added successfully");

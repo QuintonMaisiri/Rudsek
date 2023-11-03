@@ -2,17 +2,11 @@
 
 import { getOrders } from "@/app/dbengine";
 import { useEffect, useState } from "react";
-import { signIn, useSession } from "next-auth/react";
 import { timeElapsed } from "../helper_functions";
 
 
 export default function Page({ params }: { params: { id: string } }) {
-    const { data: session } = useSession();
 
-    const { status: sessionStatus } = useSession();
-    const authorized = sessionStatus === 'authenticated';
-    const unAuthorized = sessionStatus === 'unauthenticated';
-    const loading = sessionStatus === 'loading';
     let [orders, setOrders] = useState<any>([])
 
     useEffect(() => {
@@ -26,28 +20,6 @@ export default function Page({ params }: { params: { id: string } }) {
         })();
     }, []);
 
-    useEffect(() => {
-        // check if the session is loading or the router is not ready
-        if (loading) return;
-
-        // if the user is not authorized, redirect to the login page
-        // with a return url to the current page
-        if (unAuthorized) {
-            console.log('not authorized');
-            signIn()
-        }
-    }, [loading, unAuthorized, sessionStatus]);
-
-    if (loading) {
-        return <>Loading app...</>;
-    }
-
-
-    if (authorized) {
-        if (session!.user!.role === 'user') {
-            return <>Not Authorized to view this section</>
-        }
-    }
     return (
         <div className="w-11/12 lg:w-5/6  mx-[auto] mt-10">
             <div className="rounded p-5 border mt-10 shadow-sm">

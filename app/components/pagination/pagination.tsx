@@ -10,14 +10,7 @@ export default function Pagination({ phones }: { phones: any[] }) {
 
     const numberOfPages = Math.floor(phones.length / 20)
     let [currentPage, setCurrentPage] = useState(0)
-    let [currentFirstEntryNumber, setCurrentFirstEntryNumber] = useState(currentPage * 20 + 1)
     let [phonesToShow, setPhonesToShow] = useState([])
-
-    useEffect(()=>{
-        ()=>{
-            updatePhonesShown()
-        }
-    },[currentPage])
 
     function updatePhonesShown() {
         let holder: any = []
@@ -32,31 +25,33 @@ export default function Pagination({ phones }: { phones: any[] }) {
     function updatePage(operation: enumOperations) {
         if (operation == enumOperations.PREV) {
             if (currentPage > 0) {
-                setCurrentPage(--currentPage)
+                setCurrentPage(currentPage - 1)
             }
         } else if (operation == enumOperations.NEXT) {
             if (currentPage < numberOfPages) {
-                setCurrentPage(++currentPage)
+                setCurrentPage(currentPage + 1)
             }
-
-            setCurrentFirstEntryNumber(currentPage * 20 + 1)
             updatePhonesShown()
         }
     }
-    
+
+    useEffect(()=>{
+        updatePhonesShown()
+    },[phones])
+
     return (
         <div>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-5'>
                 {
-                phonesToShow.map((phone: any) => {
-                    return (<PhoneCard key={phone.id} product={phone} />)
-                }
-                )}
+                    phonesToShow.map((phone: any) => {
+                        return (<PhoneCard key={phone.id} product={phone} />)
+                    }
+                    )}
             </div>
 
             <div className="flex flex-col items-center">
                 <span className="text-sm text-gray-700 dark:text-gray-400">
-                    Showing <span className="font-semibold text-gray-900"> {currentFirstEntryNumber} </span> to <span className="font-semibold text-gray-900 ">20</span> of <span className="font-semibold text-gray-900 dark:text-white">{phones.length}</span> Entries
+                    Showing <span className="font-semibold text-gray-900">1</span> to <span className="font-semibold text-gray-900 ">{phonesToShow.length < 20 ? phonesToShow.length : 20 }</span> of <span className="font-semibold text-gray-900">{phones.length}</span> Entries
                 </span>
                 <div className="inline-flex mt-2 xs:mt-0">
                     <button
@@ -67,12 +62,11 @@ export default function Pagination({ phones }: { phones: any[] }) {
                         Prev
                     </button>
                     {
-                        Array.from(Array(4), (e, i) => {
+                        Array.from(Array(numberOfPages + 1), (e, i) => {
                             return <button
                                 key={i}
                                 onClick={() => {
                                     setCurrentPage(i)
-                                    setCurrentFirstEntryNumber(currentPage * 20 + 1)
                                     updatePhonesShown()
                                 }}
                                 className={currentPage === i ? "flex items-center justify-center px-4 h-10 text-base font-medium text-white border-0 border-l border-white bg-gray-900" : "flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary-blue border-0 border-l border-white hover:bg-gray-900"}>

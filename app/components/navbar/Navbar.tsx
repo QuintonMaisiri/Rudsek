@@ -6,6 +6,7 @@ import { faBars, faCartShopping, faShop, faXmark } from '@fortawesome/free-solid
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from "react-redux";
 import { emptyCart } from '@/redux/cart.slice';
+import Link from 'next/link';
 
 export default function Navbar() {
     const cart = useSelector((state: any) => state.data);
@@ -40,16 +41,13 @@ export default function Navbar() {
                     <div>
                         <ul className="flex">
                             <li className="mr-10">
-                                <a href='/'>Home</a>
+                                <Link href='/'>Home</Link>
                             </li>
                             <li className="mr-10">
-                                <a href='/phones'>All Phones</a>
+                                <Link href='/phones'>All Phones</Link>
                             </li>
                             <li className="mr-10">
-                                <a href='/#about'>About us</a>
-                            </li>
-                            <li className="mr-10">
-                                <a href='/contact-us'>Contact us</a>
+                                <Link href='/contact-us'>Contact us</Link>
                             </li>
                             {session ?
                                 <li className="mr-10">
@@ -93,16 +91,13 @@ export default function Navbar() {
                 </div>
                 <ul className='flex-col items-center justify-center mt-10'>
                     <li className="mb-5 text-center">
-                        <a href='/'>Home</a>
+                        <Link href='/'>Home</Link>
                     </li>
                     <li className="mb-5 text-center">
-                        <a href='/phones'>All Phones</a>
+                        <Link href='/phones'>All Phones</Link>
                     </li>
                     <li className="mb-5 text-center">
-                        <a href='/#About'>about us</a>
-                    </li>
-                    <li className="mb-5 text-center">
-                        <a href='/contact-us'>Contact us</a>
+                        <Link href='/contact-us'>Contact us</Link>
                     </li>
                     {session ?
                                 <li className="mr-10">

@@ -5,6 +5,7 @@ import Searchbar from "@/app/components/searchbar/Searchbar";
 import { getAllPhones } from "@/app/dbengine";
 import { useState, useEffect } from "react";
 import Pagination from "../components/pagination/pagination";
+
 export default function Phone() {
     let [phones, setPhones] = useState([])
 
@@ -15,7 +16,7 @@ export default function Phone() {
                 setPhones(res)
             } catch (e) {
                 console.log(e);
-            }
+            } 
         })();
     }, []);
 

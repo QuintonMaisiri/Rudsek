@@ -8,13 +8,6 @@ import { useSession } from "next-auth/react";
 export default function Page({ params }: { params: { id: string } }) {
     const id = params.id
 
-    const { data: session } = useSession();
-
-    const { status: sessionStatus } = useSession();
-    const authorized = sessionStatus === 'authenticated';
-    const unAuthorized = sessionStatus === 'unauthenticated';
-    const loading = sessionStatus === 'loading';
-
     let [order, setOrder] = useState<any>({ cart: [] })
     let [user, setUser] = useState<any>({})
 
@@ -32,27 +25,6 @@ export default function Page({ params }: { params: { id: string } }) {
             }
         })();
     }, [id, order]);
-
-    useEffect(() => {
-        if (loading) return;
-
-        if (unAuthorized) {
-            console.log('not authorized');
-            signIn()
-        }
-
-    }, [loading, unAuthorized, sessionStatus]);
-
-    if (loading) {
-        return <>Loading app...</>;
-    }
-
-
-    if (authorized) {
-        if (session!.user!.role === 'user') {
-            return <>Not Authorized to view this section</>
-        }
-    }
 
     return (
         <div className="w-11/12 md:w-5/6 mx-[auto]  ">
