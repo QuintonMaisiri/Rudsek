@@ -7,28 +7,24 @@ import PhoneCard from './components/phonecard/Phonecard'
 import Navbar from './components/navbar/Navbar'
 import Footer from './components/footer/Footer'
 import { useState,useEffect } from 'react'
-import { getAllPhones, getBrands } from './dbengine'
+import { getAllPhones, getBrands} from './dbengine'
 
 export default function Home() {
   
   let [phones, setPhones] = useState([])
   let [brands, setBrands] = useState([])
-  
 
-  useEffect(() => {
-      (async () => {
-          try {
-            console.log('running')
-              const resPhones = await getAllPhones()
-              setPhones(resPhones)
-              console.log(resPhones)
-              const resBrands = await getBrands()
-              setBrands(resBrands)
-          } catch (e) {
-              console.log(e);
-          }
-      });
-  });
+  async function getPhones(){
+    const res = await getAllPhones()
+    setPhones(res)
+  }
+  async function getAllBrands(){
+    const res = await getBrands()
+    setBrands(res)
+  }
+
+  getAllBrands()
+  getPhones()
 
   return (
     <div>
