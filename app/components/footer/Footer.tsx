@@ -1,4 +1,4 @@
-import { faMessage, faPhone, faShop } from "@fortawesome/free-solid-svg-icons"
+import { faEnvelope, faPhone, faShop } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export default function Footer() {
@@ -14,10 +14,10 @@ export default function Footer() {
                     <div>
                         <h2 className='mb-5 font-bold'>Popular brands</h2>
                         <ul>
-                            <li className='text-sm mb-3'><a href="#">Huawei</a></li>
-                            <li className='text-sm mb-3'><a href="#">Samsung</a></li>
-                            <li className='text-sm mb-3'><a href="#">Oppo</a></li>
-                            <li className='text-sm mb-3'><a href="#">Xiaomi</a></li>
+                            <li className='text-sm mb-3'><a href="/phones/brand/Hauwei">Huawei</a></li>
+                            <li className='text-sm mb-3'><a href="/phones/brand/Samsung">Samsung</a></li>
+                            <li className='text-sm mb-3'><a href="/phones/brand/Oppo">Oppo</a></li>
+                            <li className='text-sm mb-3'><a href="/phones/brand/Xiami">Xiaomi</a></li>
                         </ul>
                     </div>
                     <div>
@@ -25,7 +25,6 @@ export default function Footer() {
                         <ul>
                             <li className='text-sm mb-3'><a href="/">Home</a></li>
                             <li className='text-sm mb-3'><a href="/phones">Phones</a></li>
-                            <li className='text-sm mb-3'><a href="/#about-us">About us</a></li>
                             <li className='text-sm mb-3'><a href="/contact-us">Contact us</a></li>
                         </ul>
                     </div>
@@ -33,7 +32,7 @@ export default function Footer() {
                         <h2 className='mb-5 font-bold'>Contact Details</h2>
                         <ul>
                             <li className='text-sm mb-3'><FontAwesomeIcon icon={faPhone}/> +263 777 777 777 </li>
-                            <li className='text-sm mb-3'><FontAwesomeIcon icon={faMessage}/> terrencechimunda@gmail.com</li>
+                            <li className='text-sm mb-3'><FontAwesomeIcon icon={faEnvelope}/> terrencechimunda@gmail.com</li>
                             {/* <li className='text-sm mb-3'><FontAwesomeIcon icon={faTwitter}/></li>
                             <li className='text-sm mb-3'>Lorem, ipsum.</li> */}
                         </ul>

@@ -28,6 +28,7 @@ const handler = NextAuth({
                     return user
                 })
                 return signedInUser
+
             }
         })
     ],
@@ -39,11 +40,12 @@ const handler = NextAuth({
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     callbacks: {
-        async jwt({ token, user }) {
-            return { ...token, ...user};
+        async jwt({token, user }) {
+            return {...user, ...token};
         },
+
         async session({ session, token, user }) {
-            // Send properties to the client, like an access_token from a provider.
+            session.user = { ...token as {}  }
             return session;
         },
     }

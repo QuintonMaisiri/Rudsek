@@ -1,8 +1,9 @@
 import { db } from "@/app/firebase";
 import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons/faLessThanEqual";
-import { collection, addDoc, doc, getDocs, deleteDoc, getDoc, query, where, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, deleteDoc, getDoc, query, where, updateDoc, arrayUnion, } from "firebase/firestore";
 import { OrderItem } from "./components/interfaces/order_item";
 import { NewUser } from "./components/interfaces/new_user";
+import { document } from "postcss";
 
 
 
@@ -126,7 +127,7 @@ async function addRating(phoneID: string, userID: string, userRating: number) {
         totalRating += data.rating as number
         numberOfRatings++;
     });
-    let newRating: number = (totalRating / numberOfRatings) 
+    let newRating: number = (totalRating / numberOfRatings)
     newRating = Math.ceil(newRating)
 
     const phoneRef = doc(db, "phones", phoneID);
@@ -147,7 +148,7 @@ async function hasAddedRating(userID: string, phoneID: string) {
     let res = false
     const q = query(collection(db, 'rating'), where("phoneID", "==", phoneID), where("userID", "==", userID));
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((doc) => { 
         res = true
     })
     return res
@@ -166,7 +167,7 @@ async function createOrder(
 }
 
 async function getOrders() {
-   
+
     let orders: any = [];
     const querySnapshot = await getDocs(collection(db, 'orders'));
     querySnapshot.forEach((doc) => {
@@ -189,8 +190,8 @@ async function getOrder(orderID: string) {
 
 }
 
-async function createNewUser(user : NewUser,userID : string){
-    await addDoc(collection(db,'users'),{
+async function createNewUser(user: NewUser, userID: string) {
+    await addDoc(collection(db, 'users'), {
         email: user.email,
         name: user.name,
         address: user.address,
@@ -198,27 +199,40 @@ async function createNewUser(user : NewUser,userID : string){
         role: 'user',
         userID: userID
     })
-    return {messsage: 'done'}
+    return { messsage: 'done' }
 }
-async function getUser(userID : string) : Promise <any>{
-    const q = query(collection(db,'users'),where('userID',"==",userID))
+async function getUser(userID: string): Promise<any> {
+    const q = query(collection(db, 'users'), where('userID', "==", userID))
     const querySnapshot = await getDocs(q);
-    let foundUser : any
+    let foundUser: any
     querySnapshot.forEach((doc) => {
         const data = doc.data()
         foundUser = data
     })
     return foundUser
 }
-async function getUserByEmail(email : string) : Promise <any>{
-    const q = query(collection(db,'users'),where('email',"==",email))
+async function getUserByEmail(email: string): Promise<any> {
+    const q = query(collection(db, 'users'), where('email', "==", email))
     const querySnapshot = await getDocs(q);
-    let foundUser : any
+    let foundUser: any
     querySnapshot.forEach((doc) => {
         const data = doc.data()
         foundUser = data
     })
     return foundUser
+}
+
+async function updateStatus(orderID: string): Promise<any> {
+    const orderRef = doc(db, "orders", orderID)
+    const docSnap = await getDoc(orderRef);
+    if (docSnap.exists()) {
+        const data: any = await updateDoc(orderRef, {
+            status: enumOrderStatus.DELIVERED
+        });
+        return data
+    } else {
+        return { msg: 'no such document' }
+    }
 }
 
 
@@ -239,5 +253,7 @@ export {
     getOrder,
     createNewUser,
     getUser,
-    getUserByEmail
+    getUserByEmail,
+    updateStatus,
+    enumOrderStatus,
 }

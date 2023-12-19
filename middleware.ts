@@ -14,7 +14,7 @@ export async function middleware(req : NextRequest){
 
   const { pathname }: { pathname: string } = req.nextUrl;
   const token = await getToken({req: req})
-  const user:any | null = token?.user as any
+  const user:any | null = token
 
   const authRoutes = ["/auth/signin","/auth/signup"]
 
@@ -26,7 +26,7 @@ export async function middleware(req : NextRequest){
           req.url
         )
       );
-    } else if (user.role == "Admin") {
+    } else if (user.role == "admin") {
       return NextResponse.redirect(new URL("/admin", req.url));
     } else if (user.role == "user") {
       return NextResponse.redirect(new URL("/cart", req.url));
@@ -34,7 +34,7 @@ export async function middleware(req : NextRequest){
   }
 
   if (
-    (token && pathname.startsWith("/admin") && user.role !== "Admin") ||
+    (token && pathname.startsWith("/admin") && user.role !== "admin") ||
     (token && pathname.startsWith("/cart") && user.role !== "user") ||
     (token && authRoutes.includes(pathname)) ||
     (!token && !authRoutes.includes(pathname) )

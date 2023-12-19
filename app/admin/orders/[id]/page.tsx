@@ -1,14 +1,17 @@
 'use client'
 
-import { getOrder, getUserByEmail } from "@/app/dbengine";
+import { getOrder, getUserByEmail, updateStatus } from "@/app/dbengine";
 import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function Page({ params }: { params: { id: string } }) {
     const id = params.id
 
     let [order, setOrder] = useState<any>({ cart: [] })
+    let [delivered, setDelivered] = useState(false)
     let [user, setUser] = useState<any>({})
 
     useEffect(() => {
@@ -28,6 +31,10 @@ export default function Page({ params }: { params: { id: string } }) {
 
     return (
         <div className="w-11/12 md:w-5/6 mx-[auto]  ">
+             <div className={delivered ? "bg-green-400 p-5 mx-auto w-max text-white rounded shadow my-5 flex items-center" : "hidden"}>
+                <FontAwesomeIcon icon={faCheck}  className="mr-5 text-3xl"/>
+                    Order has successfully been marked as delivered
+                </div>
             <div className="mt-20">
                 <div className="flex justify-between items-center mb-5">
                     <p className="text-primary-blue">Name</p>
@@ -93,7 +100,16 @@ export default function Page({ params }: { params: { id: string } }) {
             </div>
             <div>
                 <button
-                    className="bg-primary-blue px-5 py-3 text-white font-bold"
+                    className={delivered ? "bg-gray-200 px-5 py-3 text-white font-bold" :"bg-primary-blue px-5 py-3 text-white font-bold"}
+                    disabled={delivered}
+                    onClick={ async ()=>{
+                        setDelivered(false)
+                        const res = await updateStatus(id)
+                        const result = res.json()
+                        if (res.msg == undefined){
+                            setDelivered(true)
+                        }
+                    }}
                 >
                     Mark As Delivered
                 </button>

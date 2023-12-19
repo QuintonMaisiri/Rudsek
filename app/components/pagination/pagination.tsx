@@ -25,19 +25,21 @@ export default function Pagination({ phones }: { phones: any[] }) {
     function updatePage(operation: enumOperations) {
         if (operation == enumOperations.PREV) {
             if (currentPage > 0) {
-                setCurrentPage(currentPage - 1)
+                const newCurrentPage = currentPage - 1
+                setCurrentPage(newCurrentPage)
             }
         } else if (operation == enumOperations.NEXT) {
             if (currentPage < numberOfPages) {
-                setCurrentPage(currentPage + 1)
+                 const newCurrentPage = currentPage + 1
+                setCurrentPage(newCurrentPage)
             }
-            updatePhonesShown()
         }
+        updatePhonesShown()
     }
 
     useEffect(()=>{
         updatePhonesShown()
-    },[phones])
+    },[phones,currentPage])
 
     return (
         <div>
@@ -67,6 +69,7 @@ export default function Pagination({ phones }: { phones: any[] }) {
                                 key={i}
                                 onClick={() => {
                                     setCurrentPage(i)
+                                    console.log(currentPage)
                                     updatePhonesShown()
                                 }}
                                 className={currentPage === i ? "flex items-center justify-center px-4 h-10 text-base font-medium text-white border-0 border-l border-white bg-gray-900" : "flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary-blue border-0 border-l border-white hover:bg-gray-900"}>

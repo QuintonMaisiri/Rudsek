@@ -19,22 +19,6 @@ export default function NewPhone() {
         })();
     }, []);
 
-    let [brandOptions, setBrandOptions] = useState([]);
-    let [name, setName] = useState<string>();
-    let [brand, setBrand] = useState<string>();
-    let [size, setSize] = useState<string>();
-    let [network, setNetwork] = useState<string>();
-    let [battery, setBattery] = useState<string>();
-    let [frontCamera, setFrontCamera] = useState<string>();
-    let [backCamera, setBackCamera] = useState<string>();
-    let [fingerPrint, setFingerPrint] = useState<string>();
-    let [android, setAndroid] = useState<string>();
-    let [description, setDescription] = useState<string>();
-    let [simCard, setSimcard] = useState<string>();
-    let [price, setPrice] = useState<string>();
-    let [memory, setMemory] = useState<string>();
-    let [images, setImages] = useState<any>([]);
-
     const networkOptions = ['3G', '4G', '5G'];
     const simCardOptions = ['Single', 'Dual'];
     const androidOptions = [
@@ -56,6 +40,23 @@ export default function NewPhone() {
         'no'
     ]
 
+
+    let [brandOptions, setBrandOptions] = useState([]);
+    let [name, setName] = useState<string>();
+    let [brand, setBrand] = useState<string>();
+    let [size, setSize] = useState<string>();
+    let [network, setNetwork] = useState<string>();
+    let [battery, setBattery] = useState<string>();
+    let [frontCamera, setFrontCamera] = useState<string>();
+    let [backCamera, setBackCamera] = useState<string>();
+    let [fingerPrint, setFingerPrint] = useState<string>();
+    let [android, setAndroid] = useState<string>();
+    let [description, setDescription] = useState<string>();
+    let [simCard, setSimcard] = useState<string>();
+    let [price, setPrice] = useState<string>();
+    let [memory, setMemory] = useState<string>();
+
+  
     // window.addEventListener('LR_DATA_OUTPUT', (e) => {
     //     let imageUrls : any = []
     //     const {data} = e.detail
@@ -252,13 +253,12 @@ export default function NewPhone() {
                     type="button"
                     disabled={!name || !brand || !size || !network || !battery || !frontCamera || !backCamera || !fingerPrint || !android || !description || !simCard || !price}
                     onClick={() => {
-
-                        // const dataOutput = document.querySelector('lr-data-output');
-                        // dataOutput!.addEventListener('lr-data-output', (e) => {
-                        //     console.log(e.detail);
-                        // });
-
-                        addNewPhone(name!, brand!, size!, network!, battery!, frontCamera!, backCamera!, fingerPrint!, android!, description!, simCard!, price!, memory!, images!);
+                        let imgs :any = []
+                        const imageUrls=document.getElementsByName('my-uploader') as NodeListOf <HTMLInputElement> 
+                        imageUrls.forEach((item)=>{
+                            imgs.push(item.value)
+                        })
+                        addNewPhone(name!, brand!, size!, network!, battery!, frontCamera!, backCamera!, fingerPrint!, android!, description!, simCard!, price!, memory!, imgs);
                         resetFields();
                         window.alert("Phone added successfully");
                     }}

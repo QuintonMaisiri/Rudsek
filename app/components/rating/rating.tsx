@@ -17,13 +17,14 @@ export default function Rating({props} : {props : {phoneID : string}}) {
         (async () => {
             try {
                 setUser(session?.user?.email!)
+                console.log(user)
                 const res : any = await hasAddedRating(user || '', props.phoneID)
-                setAddedRating(res)
+                setAddedRating( res)
             } catch (e) {
                 console.log(e);
             }
         })();
-    }, [session, props.phoneID, user]);
+    }, [session, user]);
 
     return <div className={addedRating ? 'hidden' : 'flex items-center mb-5 mt-5'}>
         <div className="grid grid-cols-5 w-1/3">
@@ -64,7 +65,7 @@ export default function Rating({props} : {props : {phoneID : string}}) {
                 }
                 
             }}
-            className="text-yellow-300 ml-5 cursor-pointer" >Add Stars</p>
+            className="bg-yellow-300 ml-5 cursor-pointer text-white shadow rounded p-2 " >Add Stars</p>
     </div >
 
 }

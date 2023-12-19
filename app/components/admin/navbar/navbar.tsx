@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars,faShop, faXmark } from '@fortawesome/free-solid-svg-icons';
-import {  signOut, useSession } from 'next-auth/react';
+import { faBars, faShop, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { signOut, useSession } from 'next-auth/react';
 import { useDispatch } from "react-redux";
 import { emptyCart } from '@/redux/cart.slice';
+import Link from 'next/link';
 
 export default function Navbar() {
     const dispatch = useDispatch()
@@ -29,10 +30,12 @@ export default function Navbar() {
                 </div>
             </div>
             <nav className="justify-between items-center px-20 py-3 hidden lg:flex">
-                <div className='flex'>
-                    <FontAwesomeIcon icon={faShop} className='text-primary-blue text-[24px]' />
-                    <p className='font-bold text-primary-blue'>Rudsek</p>
-                </div>
+                <Link href="/">
+                    <div className='flex'>
+                        <FontAwesomeIcon icon={faShop} className='text-primary-blue text-[24px]' />
+                        <p className='font-bold text-primary-blue'>Rudsek</p>
+                    </div>
+                </Link>
                 <div className="flex items-center">
                     <div>
                         <ul className="flex">
@@ -41,9 +44,6 @@ export default function Navbar() {
                             </li>
                             <li className="mr-10">
                                 <a href='/admin/phones'>Phones</a>
-                            </li>
-                            <li className="mr-10">
-                                <a href='/admin/settings'>Settings</a>
                             </li>
                             {session ?
                                 <li className="mr-10">
@@ -80,9 +80,6 @@ export default function Navbar() {
                     </li>
                     <li className="mb-5 text-center">
                         <a href='/admin/phones'>Phones</a>
-                    </li>
-                    <li className="mb-5 text-center">
-                        <a href='/admin/settings'>Settings</a>
                     </li>
                     {session ?
                         <li className="mr-10">
