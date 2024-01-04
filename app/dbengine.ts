@@ -1,11 +1,7 @@
 import { db } from "@/app/firebase";
-import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons/faLessThanEqual";
 import { collection, addDoc, doc, getDocs, deleteDoc, getDoc, query, where, updateDoc, arrayUnion, } from "firebase/firestore";
 import { OrderItem } from "./components/interfaces/order_item";
 import { NewUser } from "./components/interfaces/new_user";
-import { document } from "postcss";
-
-
 
 enum enumOrderStatus {
     PENDING = 'pending',
@@ -229,9 +225,46 @@ async function updateStatus(orderID: string): Promise<any> {
         const data: any = await updateDoc(orderRef, {
             status: enumOrderStatus.DELIVERED
         });
+        return true
+    } else {
+        return false
+    }
+}
+async function addNewMessage(msg : any) {
+    await addDoc(collection(db, 'messages'), {...msg, read: false, replied : false})
+    return true
+}
+async function getMessages() {
+
+    let messages: any = [];
+    const querySnapshot = await getDocs(collection(db, 'messages'));
+    querySnapshot.forEach((doc) => {
+        let msg = { id: doc.id, data: doc.data(),  date: Date.now(), }
+        messages.push(msg);
+    });
+
+    return messages
+}
+async function getMessage(msgID: string) {
+    const msgRef = doc(db, "messages", msgID)
+    const docSnap = await getDoc(msgRef);
+    if (docSnap.exists()) {
+        const data: any = docSnap.data()
         return data
     } else {
         return { msg: 'no such document' }
+    }
+}
+async function updateRead(msgID: string): Promise<any> {
+    const msgRef = doc(db, "orders", msgID)
+    const docSnap = await getDoc(msgRef);
+    if (docSnap.exists()) {
+        const data: any = await updateDoc(msgRef, {
+            read : true
+        });
+        return true
+    } else {
+        return false
     }
 }
 
@@ -256,4 +289,8 @@ export {
     getUserByEmail,
     updateStatus,
     enumOrderStatus,
+    addNewMessage,
+    getMessages,
+    getMessage,
+    updateRead,
 }

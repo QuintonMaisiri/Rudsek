@@ -50,13 +50,14 @@ export default function Phone({ params }: { params: { id: string } }) {
 
     if (phone == undefined) {
         return (
-           <div className="w-full h-[100vh] flex items-center justify-center">
+           <div className="w-full h-[100vh] flex flex-col items-center justify-center">
              <BarLoader
                 color={'#3BDBE3'}
                 loading={true}
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
+            <p>Loading... Please be patient</p>
            </div>
         )
     } else {

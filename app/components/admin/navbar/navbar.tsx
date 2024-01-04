@@ -43,6 +43,9 @@ export default function Navbar() {
                                 <a href='/admin'>Orders</a>
                             </li>
                             <li className="mr-10">
+                                <a href='/admin/messages'>Messages</a>
+                            </li>
+                            <li className="mr-10">
                                 <a href='/admin/phones'>Phones</a>
                             </li>
                             {session ?
